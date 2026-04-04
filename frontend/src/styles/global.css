@@ -2272,3 +2272,171 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Timer Premium (Gatsby Style - v1.5) ────────────────────────────────── */
+
+.timer-hero {
+  border: 1px solid var(--oro-borde);
+  padding: var(--espacio-lg) var(--espacio-xl);
+  text-align: center;
+  margin-bottom: var(--espacio-xl);
+  background: var(--superficie);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.timer-hero::before, .timer-hero::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 0.5px;
+  background: var(--oro-oscuro);
+  left: 0;
+}
+.timer-hero::before { top: 6px; }
+.timer-hero::after { bottom: 6px; }
+
+.timer-hero__label {
+  font-family: var(--fuente-label);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--oro-silenciado);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.timer-hero__display {
+  font-family: var(--fuente-titular);
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--oro-primario);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin: 1.2rem 0;
+  text-shadow: 0 0 25px rgba(201, 168, 76, 0.2);
+}
+
+.timer-hero__quote {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--oro-tenue);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.timer-hero__quote::before, .timer-hero__quote::after {
+  content: '';
+  width: 60px;
+  height: 0.5px;
+  background: var(--oro-oscuro);
+}
+
+/* ── Timer Acciones Premium ────────────────────────────────────────────── */
+
+.timer-layout-premium {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-md);
+  margin-top: var(--espacio-md);
+}
+
+.timer-acciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio-md);
+  margin-top: 0.5rem;
+}
+
+.btn-premium {
+  background: transparent;
+  border: 1px solid var(--oro-borde);
+  color: var(--oro-primario);
+  padding: 0.85rem 1.5rem;
+  font-family: var(--fuente-titular);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.btn-premium:hover:not(:disabled) {
+  background: rgba(201, 168, 76, 0.08);
+  box-shadow: inset 0 0 20px rgba(201, 168, 76, 0.15);
+  border-color: var(--oro-primario);
+}
+
+.btn-premium:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--oro-oscuro);
+}
+
+.btn-premium--start {
+  grid-column: span 2;
+  background: rgba(201, 168, 76, 0.03);
+}
+
+.btn-premium--stop {
+  color: var(--texto-error);
+  border-color: #5a1a14;
+}
+.btn-premium--stop:hover:not(:disabled) {
+  background: rgba(192, 57, 43, 0.08);
+  border-color: var(--texto-error);
+}
+
+.timer-divisor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--espacio-lg) 0;
+  color: var(--oro-oscuro);
+  width: 100%;
+}
+
+.timer-divisor::before, .timer-divisor::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--oro-oscuro);
+}
+
+.timer-divisor__diamond {
+  margin: 0 1.2rem;
+  font-size: 0.6rem;
+  transform: rotate(45deg);
+  background: var(--oro-borde);
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 5px var(--oro-tenue);
+}
+
+/* ── Ajustes de Escala para Responsive ─────────────────────────────────── */
+@media (max-width: 600px) {
+  .timer-hero__display {
+    font-size: 3rem;
+  }
+  .timer-hero {
+    padding: var(--espacio-md);
+  }
+  .timer-acciones-grid {
+    grid-template-columns: 1fr;
+  }
+  .btn-premium--start {
+    grid-column: span 1;
+  }
+}

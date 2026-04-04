@@ -266,30 +266,26 @@ export default function Timer({
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className="timer">
-      {/* Sesión actual */}
-      <div className="timer__grupo">
-        <span className="timer__etiqueta">Sesión actual</span>
-        <div className={`timer__display${estado === 'running' ? ' timer__display--corriendo' : ''}`}>
+    <div className="timer-layout-premium">
+      <div className="timer-hero">
+        <span className="timer-hero__label">Sesión de lectura actual</span>
+        <div className={`timer-hero__display ${estado === 'running' ? 'gold-glow' : ''}`}>
           {formatearCronometro(segundosActuales)}
         </div>
-        {estado === 'paused' && (
-          <span className="timer__badge-pausa">
-            <IconPausar /> En pausa
-          </span>
-        )}
+        <div className="timer-hero__quote">
+          Una vida de lecturas es una vida plena
+        </div>
       </div>
 
-      {/* Acciones */}
-      <div className="timer__acciones">
+      <div className="timer-acciones-grid">
         {estado === 'idle' && (
           <button
             id={`timer-btn-iniciar-${libroId}`}
-            className="btn btn-primario"
+            className="btn-premium btn-premium--start"
             onClick={iniciar}
             disabled={guardando}
           >
-            {guardando ? '...' : <><IconIniciar /> Iniciar</>}
+            {guardando ? 'Iniciando...' : <><IconIniciar /> INICIAR SESIÓN</>}
           </button>
         )}
 
@@ -297,20 +293,19 @@ export default function Timer({
           <>
             <button
               id={`timer-btn-pausar-${libroId}`}
-              className="btn btn-secundario"
+              className="btn-premium"
               onClick={pausar}
               disabled={guardando}
-              style={{ marginRight: 'var(--espacio-sm)' }}
             >
-              {guardando ? '...' : <><IconPausar /> Pausar</>}
+              {guardando ? '...' : <><IconPausar /> PAUSAR</>}
             </button>
             <button
               id={`timer-btn-stop-${libroId}`}
-              className="btn btn-peligro"
+              className="btn-premium btn-premium--stop"
               onClick={mostrarFormStop}
               disabled={guardando}
             >
-              <IconDetener /> Detener
+              <IconDetener /> DETENER
             </button>
           </>
         )}
@@ -319,66 +314,61 @@ export default function Timer({
           <>
             <button
               id={`timer-btn-reanudar-${libroId}`}
-              className="btn btn-primario"
+              className="btn-premium"
               onClick={reanudar}
               disabled={guardando}
-              style={{ marginRight: 'var(--espacio-sm)' }}
             >
-              {guardando ? '...' : <><IconIniciar /> Reanudar</>}
+              {guardando ? '...' : <><IconIniciar /> REANUDAR</>}
             </button>
             <button
               id={`timer-btn-stop-paused-${libroId}`}
-              className="btn btn-peligro"
+              className="btn-premium btn-premium--stop"
               onClick={mostrarFormStop}
               disabled={guardando}
             >
-              <IconDetener /> Detener
+              <IconDetener /> DETENER
             </button>
           </>
         )}
 
         {estado === 'stopping' && (
-          <div className="timer__stop-form">
+          <div className="timer__stop-form" style={{ gridColumn: 'span 2' }}>
             <textarea
-              className="timer__nota-input"
+              className="campo__entrada campo__entrada--textarea"
+              style={{ marginBottom: 'var(--espacio-sm)', fontSize: '0.9rem' }}
               placeholder="Nota opcional sobre la sesión…"
               value={nota}
               onChange={e => setNota(e.target.value)}
               rows={2}
             />
-            <div className="timer__stop-actions">
+            <div style={{ display: 'flex', gap: 'var(--espacio-sm)' }}>
               <button
                 id={`timer-btn-confirmar-stop-${libroId}`}
-                className="btn btn-peligro"
+                className="btn-peligro btn"
+                style={{ flex: 1, justifyContent: 'center' }}
                 onClick={confirmarStop}
                 disabled={guardando}
               >
-                {guardando ? '...' : <><IconDetener /> Confirmar</>}
+                {guardando ? 'Guardando...' : 'GUARDAR Y FINALIZAR'}
               </button>
               <button
-                id={`timer-btn-cancelar-stop-${libroId}`}
                 className="btn btn-secundario"
                 onClick={cancelarStop}
                 disabled={guardando}
               >
-                Cancelar
+                CANCELAR
               </button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Total acumulado */}
-      <div className="timer__grupo">
-        <span className="timer__etiqueta">Total acumulado</span>
-        <div className="timer__display timer__display--acumulado">
-          {formatearCronometro(acumulado)}
-        </div>
+      <div className="timer-divisor">
+        <div className="timer-divisor__diamond" />
       </div>
 
-      {/* Error inline */}
       {error && (
-        <p className="timer__error">✕ {error}</p>
+        <p className="timer__error" style={{ textAlign: 'center', marginTop: '-0.5rem', color: 'var(--texto-error)' }}>✕ {error}</p>
       )}
     </div>
   )

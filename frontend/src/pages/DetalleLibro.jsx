@@ -204,6 +204,19 @@ export default function DetalleLibro() {
             </div>
           </div>
 
+          {/* Timer (solo si está leyendo) - MOVED UP for prominence */}
+          {libro.estado === 'leyendo' && (
+            <div style={{ marginBottom: 'var(--espacio-xl)' }}>
+              <Timer
+                libroId={libro.id}
+                totalSegundos={totalSegundos}
+                sesionActiva={sesionActiva}
+                onSesionGuardada={onSesionGuardada}
+                onSesionActiva={setSesionActiva}
+              />
+            </div>
+          )}
+
           {/* Reseña */}
           {libro.resena && (
             <section className="seccion-bloque" aria-label="Reseña personal">
@@ -212,19 +225,6 @@ export default function DetalleLibro() {
             </section>
           )}
 
-          {/* Timer (solo si está leyendo) */}
-          {libro.estado === 'leyendo' && (
-            <section className="seccion-bloque" aria-label="Cronómetro de lectura">
-              <h2 className="seccion-titulo">◷ Sesión de lectura</h2>
-              <Timer
-                libroId={libro.id}
-                totalSegundos={totalSegundos}
-                sesionActiva={sesionActiva}
-                onSesionGuardada={onSesionGuardada}
-                onSesionActiva={setSesionActiva}
-              />
-            </section>
-          )}
 
           {/* Notas y Citas */}
           <section className="seccion-bloque" aria-label="Notas y citas">
