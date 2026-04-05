@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Estrellas from '../components/Estrellas.jsx'
 import Timer from '../components/Timer.jsx'
 import ModalNota from '../components/ModalNota.jsx'
+import TagModal from '../components/TagModal.jsx'
 import Header from '../components/Header.jsx'
 import { API } from '../services/api.js'
 
@@ -23,6 +24,7 @@ export default function DetalleLibro() {
   const [totalSegundos, setTotalSegundos] = useState(0)
   const [sesionActiva, setSesionActiva] = useState(null)
   const [errorNotas, setErrorNotas] = useState(false)
+  const [etiquetaActiva, setEtiquetaActiva] = useState(null)
 
   useEffect(() => {
     cargarLibro()
@@ -186,7 +188,13 @@ export default function DetalleLibro() {
               {etiquetas.length > 0 && (
                 <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>
                   {etiquetas.map((e, i) => (
-                    <span key={i} className="etiqueta-chip">{e}</span>
+                    <span 
+                      key={i} 
+                      className={`etiqueta-chip ${etiquetaActiva === e ? 'etiqueta-chip--activa' : ''}`}
+                      onClick={() => setEtiquetaActiva(etiquetaActiva === e ? null : e)}
+                    >
+                      {e}
+                    </span>
                   ))}
                 </div>
               )}
@@ -287,6 +295,12 @@ export default function DetalleLibro() {
           onGuardada={onNotaGuardada}
         />
       )}
+
+      {/* Modal de Etiqueta (Libros relacionados) */}
+      <TagModal 
+        etiquetaActiva={etiquetaActiva} 
+        onClose={() => setEtiquetaActiva(null)} 
+      />
     </>
   )
 }

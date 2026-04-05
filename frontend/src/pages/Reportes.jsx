@@ -217,10 +217,16 @@ function TabMes() {
               <span className="reporte-stat__val">{formatearTiempo(totalSecs)}</span>
               <span className="reporte-stat__label">Total del mes</span>
             </div>
-            <div className="reporte-stat">
+            <div className="reporte-stat reporte-stat--destacado">
               <span className="reporte-stat__val">{formatearTiempo(promedio)}</span>
               <span className="reporte-stat__label">Promedio diario</span>
             </div>
+            {data?.libro_mas_leido && (
+              <div className="reporte-stat reporte-stat--destacado">
+                <span className="reporte-stat__val reporte-stat__val--sm">{data.libro_mas_leido}</span>
+                <span className="reporte-stat__label">Más leído</span>
+              </div>
+            )}
           </div>
 
           <div className="reporte-mes-grid">
@@ -294,6 +300,10 @@ function TabAnio() {
             <div className="reporte-stat">
               <span className="reporte-stat__val">{formatearTiempo(totalSecs)}</span>
               <span className="reporte-stat__label">Total del año</span>
+            </div>
+            <div className="reporte-stat reporte-stat--destacado">
+              <span className="reporte-stat__val">{formatearTiempo(data?.promedio_segundos_dia || 0)}</span>
+              <span className="reporte-stat__label">Promedio diario</span>
             </div>
             {data?.libro_mas_leido && (
               <div className="reporte-stat reporte-stat--destacado">

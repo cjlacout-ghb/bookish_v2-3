@@ -1459,9 +1459,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .carrusel-btn {
   background: var(--superficie);
   color: var(--oro-oscuro);
-  border: 2px solid var(--oro- oscuros); /* Sobrescribimos en hover y left/right */
+  border: 1px solid var(--oro-oscuro); /* Todos los bordes conectados */
   border-radius: 0; /* Geométrico, nada curvo */
-  width: 35px;
+  width: 40px;
   height: 65px; /* Más alto que ancho */
   display: flex;
   justify-content: center;
@@ -1476,15 +1476,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .carrusel-btn.left {
-  left: -40px;
-  border: 1px solid var(--oro-oscuro);
-  border-left: none; /* Abierto por la izquierda */
+  left: -45px;
 }
 
 .carrusel-btn.right {
-  right: -40px;
-  border: 1px solid var(--oro-oscuro);
-  border-right: none; /* Abierto por la derecha */
+  right: -45px;
 }
 
 .carrusel-btn:hover {
@@ -1498,13 +1494,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .carrusel-arrow {
   font-size: 1.1rem;
   line-height: 1;
-  /* Ligero ajuste para compensar ópticamente el peso del triángulo */
-}
-.carrusel-btn.left .carrusel-arrow {
-  transform: translateX(-2px);
-}
-.carrusel-btn.right .carrusel-arrow {
-  transform: translateX(2px);
+  display: inline-block;
 }
 
 
@@ -2473,13 +2463,17 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /* ── Global Back Button ──────────────────────────────────────────────────── */
-.btn-back-global {
+.btn-back-wrapper {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 9999;
+}
+
+.btn-back-global {
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
   background-color: var(--superficie);
   color: var(--oro-primario);
   border: 1px solid var(--oro-oscuro);
@@ -2487,8 +2481,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 9999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: rotate(135deg); /* Rotación global solicitada: cuadrado -> rombo */
   transition: all var(--transicion);
 }
 
@@ -2496,19 +2490,25 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: var(--sup-max);
   border-color: var(--oro-primario);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(201, 168, 76, 0.2);
-  transform: translateY(-2px);
+  transform: scale(1.1) rotate(135deg);
 }
 
-.btn-back-global .material-symbols-outlined {
-  font-size: 1.5rem;
+.btn-back-icon {
+  font-size: 1.8rem;
+  transform: rotate(-135deg); /* El icono se mantiene en su posición relativa original, pero el botón lo gira a 0deg (chevron <) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
+  .btn-back-wrapper {
+    bottom: 2rem;
+    right: 2rem;
+  }
   .btn-back-global {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 45px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
   }
 }
 
@@ -2553,3 +2553,161 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     grid-column: span 1;
   }
 }
+
+/* ── Etiquetas & Modal de Etiquetas ─────────────────────────────────────── */
+.etiqueta-chip {
+  cursor: pointer;
+  transition: all var(--transicion);
+  user-select: none;
+}
+.etiqueta-chip:hover {
+  background-color: var(--sup-alta);
+  border-color: var(--oro-silenciado);
+}
+.etiqueta-chip--activa {
+  background-color: var(--oro-primario);
+  color: var(--fondo);
+  border-color: var(--oro-primario);
+  font-weight: 600;
+}
+.etiqueta-chip--activa:hover {
+  background-color: var(--oro-silenciado);
+  border-color: var(--oro-silenciado);
+}
+
+.tag-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  padding: var(--espacio-lg);
+  animation: fadeIn 0.2s ease;
+}
+
+.tag-modal-contenido {
+  background-color: var(--fondo);
+  border: 1px solid var(--oro-primario);
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--oro-oscuro) inset;
+}
+
+.tag-modal-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--espacio-md);
+  border-bottom: 0.5px solid var(--oro-oscuro);
+  background-color: var(--sup-alta);
+}
+
+.tag-modal-titulo {
+  font-family: var(--fuente-titular);
+  font-size: 1.2rem;
+  color: var(--texto-primario);
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tag-modal-ornamento {
+  color: var(--oro-oscuro);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.tag-modal-cerrar {
+  color: var(--texto-tenue);
+  font-size: 1.2rem;
+  transition: color var(--transicion);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--borde-radio);
+}
+.tag-modal-cerrar:hover {
+  color: var(--oro-primario);
+  background-color: var(--superficie);
+}
+
+.tag-modal-cuadricula {
+  padding: var(--espacio-md);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio-md);
+  overflow-y: auto;
+}
+
+@media (max-width: 500px) {
+  .tag-modal-cuadricula {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tag-modal-libro {
+  display: flex;
+  gap: var(--espacio-sm);
+  background-color: var(--superficie);
+  border: 0.5px solid var(--oro-oscuro);
+  padding: var(--espacio-xs);
+  cursor: pointer;
+  transition: all var(--transicion);
+}
+.tag-modal-libro:hover {
+  border-color: var(--oro-silenciado);
+  background-color: var(--sup-alta);
+}
+
+.tag-modal-portada {
+  width: 50px;
+  aspect-ratio: 2/3;
+  background-color: var(--sup-media);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 0.5px solid var(--oro-oscuro);
+}
+.tag-modal-portada img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.tag-modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.tag-modal-libro-titulo {
+  font-family: var(--fuente-titular);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--texto-primario);
+  font-weight: 600;
+}
+
+.tag-modal-libro-autor {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--texto-secundario);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

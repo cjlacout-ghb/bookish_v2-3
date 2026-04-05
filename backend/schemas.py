@@ -172,6 +172,7 @@ class ReporteMes(BaseModel):
     mes: int
     total_segundos: int
     promedio_segundos_dia: int
+    libro_mas_leido: Optional[str] = None
     dias: List[FilaDiaMes]
 
 class FilaMesAnio(BaseModel):
@@ -182,5 +183,6 @@ class FilaMesAnio(BaseModel):
 class ReporteAnio(BaseModel):
     anio: int
     total_segundos: int
+    promedio_segundos_dia: int = 0
     libro_mas_leido: Optional[str]
     meses: List[FilaMesAnio]

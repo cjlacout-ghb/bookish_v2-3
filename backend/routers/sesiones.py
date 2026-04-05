@@ -280,15 +280,26 @@ def reporte_mes(
         .all()
     )
 
-    # Aggregate by day
+    # Aggregate by day and book
     por_dia: dict[int, int] = {}
+    por_libro: dict[int, int] = {}
     for s in sesiones:
         d = s.iniciado_en.day
         por_dia[d] = por_dia.get(d, 0) + (s.duracion_segundos or 0)
+        por_libro[s.libro_id] = por_libro.get(s.libro_id, 0) + (s.duracion_segundos or 0)
 
     total_segundos = sum(por_dia.values())
     dias_con_lectura = len(por_dia)
     promedio = (total_segundos // dias_con_lectura) if dias_con_lectura else 0
+
+    # Most-read book
+    libro_mas_leido = None
+    if por_libro:
+        top_id = max(por_libro, key=lambda k: por_libro[k])
+        libro_obj = db.query(Libro).filter(Libro.id == top_id).first()
+        if libro_obj:
+            libro_mas_leido = libro_obj.titulo
+
 
     filas = [
         FilaDiaMes(
@@ -304,6 +315,7 @@ def reporte_mes(
         mes=month,
         total_segundos=total_segundos,
         promedio_segundos_dia=promedio,
+        libro_mas_leido=libro_mas_leido,
         dias=filas,
     )
 
@@ -330,12 +342,17 @@ def reporte_anio(year: int = Query(...), db: Session = Depends(get_db)):
 
     por_mes: dict[int, int] = {}
     por_libro: dict[int, int] = {}
+    por_dia_anio: dict[str, int] = {}
     for s in sesiones:
         m = s.iniciado_en.month
         por_mes[m] = por_mes.get(m, 0) + (s.duracion_segundos or 0)
         por_libro[s.libro_id] = por_libro.get(s.libro_id, 0) + (s.duracion_segundos or 0)
+        fecha_str = s.iniciado_en.strftime("%Y-%m-%d")
+        por_dia_anio[fecha_str] = por_dia_anio.get(fecha_str, 0) + (s.duracion_segundos or 0)
 
     total_segundos = sum(por_mes.values())
+    dias_con_lectura = len(por_dia_anio)
+    promedio = (total_segundos // dias_con_lectura) if dias_con_lectura else 0
 
     # Most-read book
     libro_mas_leido = None
@@ -357,6 +374,7 @@ def reporte_anio(year: int = Query(...), db: Session = Depends(get_db)):
     return ReporteAnio(
         anio=year,
         total_segundos=total_segundos,
+        promedio_segundos_dia=promedio,
         libro_mas_leido=libro_mas_leido,
         meses=meses,
     )

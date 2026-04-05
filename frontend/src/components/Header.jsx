@@ -32,9 +32,7 @@ function Header() {
         >
           SESIONES
         </Link>
-        <a href="/#unete" className="nav-link">
-          ÚNETE AL ARCHIVO
-        </a>
+
       </nav>
 
       <div className="landing-actions">

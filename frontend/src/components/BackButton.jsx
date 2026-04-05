@@ -10,12 +10,14 @@ export default function BackButton() {
   }
 
   return (
-    <button 
-      className="btn-back-global animar-entrada" 
-      onClick={() => navigate(-1)}
-      title="Volver atrás"
-    >
-      <span className="material-symbols-outlined">arrow_back</span>
-    </button>
+    <div className="btn-back-wrapper animar-entrada">
+      <button 
+        className="btn-back-global" 
+        onClick={() => navigate(-1)}
+        title="Volver atrás"
+      >
+        <span className="btn-back-icon material-symbols-outlined">chevron_left</span>
+      </button>
+    </div>
   )
 }

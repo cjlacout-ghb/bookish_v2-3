@@ -450,7 +450,7 @@ export default function FormLibro() {
             {/* Etiquetas */}
             <div className="campo form-libro__campo-unico">
               <label className="campo__etiqueta" htmlFor="f-etiquetas">
-                etiquetas <span style={{ color: 'var(--texto-tenue)' }}>(separadas por coma)</span>
+                etiquetas
               </label>
               <input
                 id="f-etiquetas"
