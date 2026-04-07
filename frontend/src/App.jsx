@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Biblioteca from './pages/Biblioteca.jsx'
 import DetalleLibro from './pages/DetalleLibro.jsx'
@@ -19,7 +19,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <ScrollToTop />
       <BackButton />
       <Routes>
@@ -32,6 +32,6 @@ export default function App() {
         <Route path="/reportes"           element={<Reportes />} />
         <Route path="/guia"               element={<GuiaUsuario />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   )
 }

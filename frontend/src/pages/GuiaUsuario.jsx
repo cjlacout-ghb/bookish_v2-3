@@ -57,8 +57,20 @@ export default function GuiaUsuario() {
             </div>
 
             <div className="seccion-bloque">
+              <h2 className="seccion-titulo">6. Tus Datos y Privacidad</h2>
+              <p>Bookish es <strong>100% local</strong>. Esto significa que toda tu información (libros, notas, portadas y tiempos de lectura) se guarda exclusivamente en <strong>tu computadora</strong>, no en internet ni en servidores externos.</p>
+              <div style={{ margin: '1rem 0', padding: '1rem', background: 'var(--sup-media)', borderRadius: '4px', borderLeft: '4px solid var(--oro-primario)' }}>
+                <p style={{ margin: 0, color: 'var(--blanco)' }}><strong>Seguridad:</strong> Podés cerrar el programa o apagar tu PC con total tranquilidad; tus datos están protegidos en tu disco duro y no se perderán.</p>
+              </div>
+            </div>
+
+            <div className="seccion-bloque">
               <h2 className="seccion-titulo">Preguntas Frecuentes (FAQ)</h2>
               <div style={{ display: 'grid', gap: '1.5rem' }}>
+                <div>
+                  <h4 style={{ color: 'var(--oro-primario)', fontSize: '0.8rem' }}>¿Dónde se guarda mi información físicamente?</h4>
+                  <p>En Windows, tus libros y portadas se guardan en la carpeta <code>%LocalAppData%\Bookish</code> de tu usuario. Si borrás el programa y lo volvés a descargar, tus libros seguirán ahí porque la base de datos es independiente del ejecutable.</p>
+                </div>
                 <div>
                   <h4 style={{ color: 'var(--oro-primario)', fontSize: '0.8rem' }}>¿El temporizador sigue corriendo si cierro la app?</h4>
                   <p>Sí. La sesión queda guardada. El tiempo transcurrido se contabiliza correctamente cuando volvés a abrirla.</p>

@@ -1,4 +1,5 @@
-const API_URL = '/api';
+export const BASE_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
 
 async function handleResponse(res) {
   if (!res.ok) {
@@ -80,4 +81,9 @@ export const API = {
 
   // ── Estadísticas ──────────────────────────────────────────────────────────
   getEstadisticas: () => fetch(`${API_URL}/estadisticas`).then(handleResponse),
+};
+
+export const getPortadaUrl = (filename) => {
+  if (!filename) return '';
+  return `${BASE_URL}/portadas/${filename}`;
 };
