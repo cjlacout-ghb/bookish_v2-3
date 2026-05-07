@@ -70,13 +70,15 @@ export default function LandingPage() {
             
             {/* Feature 2: Visual Intelligence */}
             <div className="feature-card">
-              <div className="feature-icon-wrapper">
-                <span className="feature-icon">◈</span>
-              </div>
-              <h3 className="feature-title">Inteligencia Visual</h3>
+              <Link to="/inteligencia-visual" className="feature-card__link">
+                <div className="feature-icon-wrapper">
+                  <span className="feature-icon">◈</span>
+                </div>
+                <h3 className="feature-title">Inteligencia Visual</h3>
+              </Link>
               <div className="feature-divider"></div>
               <p className="feature-text">
-                Próximamente. Análisis profundo de tus hábitos de lectura y expansión de tus horizontes a través de visualización geométrica.
+                Análisis profundo de tus hábitos de lectura. Visualiza tus patrones a través de gráficos geométricos y descubre la arquitectura de tu biblioteca.
               </p>
             </div>
             

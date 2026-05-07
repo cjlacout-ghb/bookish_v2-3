@@ -72,3 +72,13 @@ class SesionLectura(Base):
     captura_filename = Column(String(300), nullable=True)
 
     libro = relationship("Libro", back_populates="sesiones")
+
+
+class ReadingGoal(Base):
+    __tablename__ = "reading_goals"
+
+    id            = Column(Integer, primary_key=True, index=True)
+    year          = Column(Integer, unique=True, nullable=False, index=True)
+    target_books  = Column(Integer, nullable=False, default=0)
+    created_at    = Column(DateTime, default=datetime.utcnow)
+    updated_at    = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

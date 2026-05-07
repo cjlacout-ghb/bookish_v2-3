@@ -8,6 +8,7 @@ import Sesiones from './pages/Timers.jsx'
 import Reportes from './pages/Reportes.jsx'
 import GuiaUsuario from './pages/GuiaUsuario.jsx'
 import BackupRestore from './pages/BackupRestore.jsx'
+import InteligenciaVisual from './pages/InteligenciaVisual.jsx'
 import BackButton from './components/BackButton.jsx'
 
 function ScrollToTop() {
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/reportes" element={<Reportes />} />
         <Route path="/guia" element={<GuiaUsuario />} />
         <Route path="/backup" element={<BackupRestore />} />
+        <Route path="/inteligencia-visual" element={<InteligenciaVisual />} />
       </Routes>
     </Router>
   )

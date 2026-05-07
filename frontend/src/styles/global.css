@@ -2826,3 +2826,543 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   text-overflow: ellipsis;
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTELIGENCIA VISUAL — Dashboard de patrones lectores
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ────────────────────────────────────────────────────────── */
+.iv-pagina {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.5rem 0 6rem;
+}
+
+/* ── Page header ─────────────────────────────────────────────────────────── */
+.iv-encabezado {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.iv-titulo-pagina {
+  font-family: var(--fuente-titular);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--oro-primario);
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.iv-subtitulo-pagina {
+  font-family: var(--fuente-cuerpo);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--oro-silenciado);
+}
+
+/* ── Section block ───────────────────────────────────────────────────────── */
+.iv-bloque {
+  margin-bottom: 4rem;
+}
+
+.iv-bloque-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0;
+}
+
+/* ── Section title ───────────────────────────────────────────────────────── */
+.iv-titulo-seccion {
+  font-family: var(--fuente-titular);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--oro-primario);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--oro-oscuro);
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+/* ── States ──────────────────────────────────────────────────────────────── */
+.iv-empty {
+  font-family: var(--fuente-cuerpo);
+  font-style: italic;
+  color: var(--oro-silenciado);
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 1rem;
+}
+
+.iv-cargando {
+  font-family: var(--fuente-titular);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--oro-oscuro);
+  text-align: center;
+  padding: 2rem 0;
+  opacity: 0.5;
+}
+
+/* ── Block 1: Stat cards ─────────────────────────────────────────────────── */
+.iv-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  border: 1px solid var(--oro-oscuro);
+}
+
+@media (max-width: 640px) {
+  .iv-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.iv-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  background: var(--sup-media);
+  border-right: 1px solid var(--oro-oscuro);
+  text-align: center;
+}
+
+.iv-stat-card:last-child {
+  border-right: none;
+}
+
+.iv-stat-numero {
+  font-family: var(--fuente-titular);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--oro-primario);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.iv-stat-label {
+  font-family: var(--fuente-titular);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--oro-oscuro);
+  line-height: 1.4;
+}
+
+/* ── Blocks 2, 3, 4: Horizontal bars ────────────────────────────────────── */
+.iv-barras-h {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.iv-barra-h-fila {
+  display: grid;
+  grid-template-columns: 220px 1fr 3rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .iv-barra-h-fila {
+    grid-template-columns: 140px 1fr 2.5rem;
+    gap: 0.6rem;
+  }
+}
+
+.iv-barra-h-label {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.9rem;
+  color: var(--texto-secundario);
+  letter-spacing: 0.05em;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iv-barra-h-track {
+  height: 6px;
+  background: rgba(201, 168, 76, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.iv-barra-h-fill {
+  height: 100%;
+  background: var(--oro-primario);
+  transition: width 0.4s ease;
+}
+
+.iv-barra-h-count {
+  font-family: var(--fuente-titular);
+  font-size: 0.75rem;
+  color: var(--oro-primario);
+  letter-spacing: 0.1em;
+  text-align: left;
+}
+
+/* ── Block 5: Ritmo lector (vertical bars) ───────────────────────────────── */
+.iv-selector-anio {
+  flex-shrink: 0;
+  margin-bottom: 2rem;
+}
+
+.iv-select {
+  font-family: var(--fuente-titular);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--oro-primario);
+  background: var(--superficie);
+  border: 1px solid var(--oro-oscuro);
+  padding: 0.3rem 1.8rem 0.3rem 0.7rem;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border-radius: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='square'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  outline: none;
+}
+
+.iv-select option {
+  background: var(--sup-alta);
+  color: var(--texto-primario);
+  font-family: var(--fuente-cuerpo);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.iv-ritmo-contenedor {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 260px;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+  .iv-ritmo-contenedor {
+    gap: 0.25rem;
+  }
+}
+
+.iv-ritmo-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.iv-ritmo-count {
+  font-family: var(--fuente-titular);
+  font-size: 0.65rem;
+  color: var(--oro-primario);
+  letter-spacing: 0.05em;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+}
+
+.iv-ritmo-track {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(201, 168, 76, 0.04);
+}
+
+.iv-ritmo-bar {
+  width: 100%;
+  background: var(--oro-primario);
+  transition: height 0.4s ease, opacity 0.3s ease;
+  min-height: 1px;
+}
+
+.iv-ritmo-mes {
+  font-family: var(--fuente-titular);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--oro-silenciado);
+  text-align: center;
+  height: 1.2rem;
+  line-height: 1.2rem;
+}
+
+/* ── Block 6: Ratings evolution (SVG) ───────────────────────────────────── */
+.iv-ratings-wrap {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.iv-ratings-svg {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.iv-ratings-single {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 0;
+}
+
+.iv-ratings-single-val {
+  font-family: var(--fuente-titular);
+  font-size: 3rem;
+  color: var(--oro-primario);
+  line-height: 1;
+}
+
+.iv-ratings-single-label {
+  font-family: var(--fuente-titular);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--oro-silenciado);
+  text-transform: uppercase;
+}
+
+.iv-ratings-nota {
+  padding: 1rem 0 0;
+  max-width: 380px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MI DESAFÍO LECTOR — Reading goal block
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Header row: title + edit button side by side */
+.iv-desafio-header {
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+/* "EDITAR META" / "ESTABLECER META" small link-style button */
+.iv-desafio-edit-btn {
+  font-family: var(--fuente-titular);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #5a4a20;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  margin-bottom: 2rem; /* aligns with title bottom border rhythm */
+}
+.iv-desafio-edit-btn:hover {
+  color: var(--oro-silenciado);
+}
+
+/* Empty state variant for desafío (no goal set) */
+.iv-desafio-empty {
+  padding: 1.5rem 0;
+}
+
+/* ── Inline edit form ── */
+.iv-desafio-form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  border-top: 0.5px solid var(--oro-oscuro);
+  border-bottom: 0.5px solid var(--oro-oscuro);
+  flex-wrap: wrap;
+}
+
+.iv-desafio-input {
+  font-family: var(--fuente-titular);
+  font-size: 1.2rem;
+  color: var(--oro-primario);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--oro-oscuro);
+  width: 5rem;
+  text-align: center;
+  padding: 0.2rem 0.3rem;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.iv-desafio-input::-webkit-outer-spin-button,
+.iv-desafio-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.iv-desafio-input:focus {
+  border-bottom-color: var(--oro-primario);
+}
+
+.iv-desafio-form-label {
+  font-family: var(--fuente-cuerpo);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--oro-silenciado);
+}
+
+.iv-desafio-guardar {
+  margin-left: 0.5rem;
+}
+
+.iv-desafio-cancelar {
+  font-family: var(--fuente-titular);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--oro-oscuro);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+.iv-desafio-cancelar:hover {
+  color: var(--oro-silenciado);
+}
+
+/* ── Two-column layout ── */
+.iv-desafio-contenido {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .iv-desafio-contenido {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* LEFT: numbers */
+.iv-desafio-numeros {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.iv-desafio-big {
+  font-family: var(--fuente-titular);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--oro-primario);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.iv-desafio-sublabel {
+  font-family: var(--fuente-titular);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #5a4a20;
+}
+
+.iv-desafio-sep {
+  height: 1px;
+  background: var(--oro-oscuro);
+  margin: 0.4rem 0;
+}
+
+.iv-desafio-mini-row {
+  display: flex;
+  gap: 2rem;
+}
+
+.iv-desafio-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.iv-desafio-mini-num {
+  font-family: var(--fuente-titular);
+  font-size: 1.4rem;
+  color: var(--oro-primario);
+  line-height: 1;
+}
+
+.iv-desafio-mini-label {
+  font-family: var(--fuente-titular);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #5a4a20;
+}
+
+/* on_track indicator */
+.iv-desafio-track {
+  font-family: var(--fuente-titular);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+.iv-desafio-track--ok {
+  color: var(--oro-primario);
+}
+
+.iv-desafio-track--slow {
+  color: var(--oro-silenciado);
+}
+
+/* RIGHT: progress bar column */
+.iv-desafio-barra-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.iv-desafio-barra-pct {
+  font-family: var(--fuente-titular);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--oro-primario);
+  text-align: center;
+}
+
+.iv-desafio-barra-track {
+  height: 12px;
+  background: #1a1500;
+  width: 100%;
+  overflow: hidden;
+}
+
+.iv-desafio-barra-fill {
+  height: 100%;
+  background: var(--oro-primario);
+  transition: width 0.5s ease;
+}
+
+.iv-desafio-meta-label {
+  font-family: var(--fuente-titular);
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--oro-silenciado);
+  text-align: center;
+}
+

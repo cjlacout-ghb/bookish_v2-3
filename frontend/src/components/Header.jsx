@@ -45,6 +45,12 @@ function Header() {
         >
           REPORTES
         </Link>
+        <Link 
+          to="/inteligencia-visual" 
+          className={`nav-link ${location.pathname === '/inteligencia-visual' ? 'active' : ''}`}
+        >
+          INTELIGENCIA VISUAL
+        </Link>
 
       </nav>
 

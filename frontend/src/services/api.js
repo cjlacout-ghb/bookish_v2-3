@@ -94,6 +94,23 @@ export const API = {
   // ── Estadísticas ──────────────────────────────────────────────────────────
   getEstadisticas: () => fetch(`${API_URL}/estadisticas`).then(handleResponse),
 
+  // ── Inteligencia Visual stats ──────────────────────────────────────────────
+  getStatsOverview:         ()     => fetch(`${API_URL}/stats/overview`).then(handleResponse),
+  getStatsByGenre:          ()     => fetch(`${API_URL}/stats/by-genre`).then(handleResponse),
+  getStatsByAuthor:         ()     => fetch(`${API_URL}/stats/by-author`).then(handleResponse),
+  getStatsByPublisher:      ()     => fetch(`${API_URL}/stats/by-publisher`).then(handleResponse),
+  getStatsRhythm:           (year) => fetch(`${API_URL}/stats/rhythm?year=${year}`).then(handleResponse),
+  getStatsRatingsEvolution: ()     => fetch(`${API_URL}/stats/ratings-evolution`).then(handleResponse),
+
+  // ── Reading Goals ──────────────────────────────────────────────────────────
+  getGoal:          (year)         => fetch(`${API_URL}/goals/${year}`).then(handleResponse),
+  upsertGoal:       (year, books)  => fetch(`${API_URL}/goals`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ year, target_books: books }),
+  }).then(handleResponse),
+  getGoalProgress:  (year)         => fetch(`${API_URL}/goals/${year}/progress`).then(handleResponse),
+
   // ── Backup ────────────────────────────────────────────────────────────────
   importarBackup: (file) => {
     const formData = new FormData();
