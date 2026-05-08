@@ -2952,7 +2952,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.6rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--oro-oscuro);
+  color: var(--oro-silenciado);
   line-height: 1.4;
 }
 
@@ -3275,7 +3275,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.58rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #5a4a20;
+  color: var(--oro-silenciado);
 }
 
 .iv-desafio-sep {
@@ -3307,7 +3307,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.55rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #5a4a20;
+  color: var(--oro-silenciado);
 }
 
 /* on_track indicator */

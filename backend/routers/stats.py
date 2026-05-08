@@ -41,15 +41,22 @@ def stats_overview(db: Session = Depends(get_db)):
         .filter(Libro.estado == EstadoLibro.leido)
         .scalar() or 0
     )
-    unique_genres = (
-        db.query(func.count(distinct(Libro.genero)))
+    # Correctly count unique genres by splitting strings
+    genre_rows = (
+        db.query(Libro.genero)
         .filter(
             Libro.estado == EstadoLibro.leido,
             Libro.genero != None,
             Libro.genero != "",
         )
-        .scalar() or 0
+        .all()
     )
+    unique_genres_set = set()
+    for r in genre_rows:
+        if r.genero:
+            parts = [g.strip() for g in r.genero.split(",") if g.strip()]
+            unique_genres_set.update(parts)
+    unique_genres = len(unique_genres_set)
     return {
         "total_books_read": total_books_read,
         "total_pages": total_pages,
@@ -61,17 +68,24 @@ def stats_overview(db: Session = Depends(get_db)):
 # ── GET /api/stats/by-genre ──────────────────────────────────────────────────
 @router.get("/stats/by-genre")
 def stats_by_genre(db: Session = Depends(get_db)):
+    from collections import Counter
     rows = (
-        db.query(Libro.genero, func.count(Libro.id).label("count"))
+        db.query(Libro.genero)
         .filter(
+            Libro.estado == EstadoLibro.leido,
             Libro.genero != None,
             Libro.genero != "",
         )
-        .group_by(Libro.genero)
-        .order_by(func.count(Libro.id).desc())
         .all()
     )
-    return [{"genre": r.genero, "count": r.count} for r in rows]
+    
+    counter = Counter()
+    for r in rows:
+        if r.genero:
+            genres = [g.strip() for g in r.genero.split(",") if g.strip()]
+            counter.update(genres)
+            
+    return [{"genre": g, "count": c} for g, c in counter.most_common()]
 
 
 # ── GET /api/stats/by-author ─────────────────────────────────────────────────
@@ -79,6 +93,7 @@ def stats_by_genre(db: Session = Depends(get_db)):
 def stats_by_author(db: Session = Depends(get_db)):
     rows = (
         db.query(Libro.autor, func.count(Libro.id).label("count"))
+        .filter(Libro.estado == EstadoLibro.leido)
         .group_by(Libro.autor)
         .order_by(func.count(Libro.id).desc())
         .limit(10)
@@ -93,6 +108,7 @@ def stats_by_publisher(db: Session = Depends(get_db)):
     rows = (
         db.query(Libro.editorial, func.count(Libro.id).label("count"))
         .filter(
+            Libro.estado == EstadoLibro.leido,
             Libro.editorial != None,
             Libro.editorial != "",
         )
