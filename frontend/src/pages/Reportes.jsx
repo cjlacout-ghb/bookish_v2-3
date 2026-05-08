@@ -102,11 +102,11 @@ function TabDia() {
           <div className="reporte-resumen">
             <div className="reporte-stat">
               <span className="reporte-stat__val">{formatearTiempo(totalSecs)}</span>
-              <span className="reporte-stat__label">Total del día</span>
+              <span className="reporte-stat__label">TOTAL DEL DÍA</span>
             </div>
             <div className="reporte-stat reporte-stat--destacado">
               <span className="reporte-stat__val">{data.libros_count}</span>
-              <span className="reporte-stat__label">Libros leídos</span>
+              <span className="reporte-stat__label">LIBROS LEÍDOS</span>
             </div>
           </div>
 
@@ -130,7 +130,7 @@ function TabDia() {
 
           {/* Lista de sesiones */}
           <div className="reporte-sesiones">
-            <h3 className="seccion-titulo" style={{ fontSize: '0.7rem' }}>Sesiones del día</h3>
+            <h3 className="seccion-titulo" style={{ fontSize: '0.7rem' }}>SESIONES DEL DÍA</h3>
             {sesiones.map(s => {
               const inicio = formatearRelojBA(s.iniciado_en)
               const fin = formatearRelojBA(s.finalizado_en)
@@ -218,16 +218,16 @@ function TabMes() {
           <div className="reporte-resumen">
             <div className="reporte-stat">
               <span className="reporte-stat__val">{formatearTiempo(totalSecs)}</span>
-              <span className="reporte-stat__label">Total del mes</span>
+              <span className="reporte-stat__label">TOTAL DEL MES</span>
             </div>
             <div className="reporte-stat reporte-stat--destacado">
               <span className="reporte-stat__val">{formatearTiempo(promedio)}</span>
-              <span className="reporte-stat__label">Promedio diario</span>
+              <span className="reporte-stat__label">PROMEDIO DIARIO</span>
             </div>
             {data?.libro_mas_leido && (
               <div className="reporte-stat reporte-stat--destacado">
                 <span className="reporte-stat__val">{data.libro_mas_leido}</span>
-                <span className="reporte-stat__label">Más leído</span>
+                <span className="reporte-stat__label">MÁS LEÍDO</span>
               </div>
             )}
           </div>
@@ -302,16 +302,16 @@ function TabAnio() {
           <div className="reporte-resumen">
             <div className="reporte-stat">
               <span className="reporte-stat__val">{formatearTiempo(totalSecs)}</span>
-              <span className="reporte-stat__label">Total del año</span>
+              <span className="reporte-stat__label">TOTAL DEL AÑO</span>
             </div>
             <div className="reporte-stat reporte-stat--destacado">
               <span className="reporte-stat__val">{formatearTiempo(data?.promedio_segundos_dia || 0)}</span>
-              <span className="reporte-stat__label">Promedio diario</span>
+              <span className="reporte-stat__label">PROMEDIO DIARIO</span>
             </div>
             {data?.libro_mas_leido && (
               <div className="reporte-stat reporte-stat--destacado">
                 <span className="reporte-stat__val">{data.libro_mas_leido}</span>
-                <span className="reporte-stat__label">Más leído</span>
+                <span className="reporte-stat__label">MÁS LEÍDO</span>
               </div>
             )}
           </div>
@@ -349,8 +349,8 @@ export default function Reportes() {
         <div className="reportes-page animar-entrada">
 
           <div className="timers-page__header">
-            <h1 className="timers-page__titulo">Reportes</h1>
-            <p className="timers-page__subtitulo">Historial de lectura</p>
+            <h1 className="timers-page__titulo">REPORTES</h1>
+            <p className="timers-page__subtitulo">Historial de lectura.</p>
           </div>
 
           {/* Tabs */}

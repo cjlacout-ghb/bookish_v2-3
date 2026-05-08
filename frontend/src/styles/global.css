@@ -142,13 +142,13 @@ input, textarea, select {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 1rem;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
   transition: color var(--transicion);
   text-decoration: none;
 }
 
 .nav-link.active {
-  color: var(--oro-primario);
+  color: var(--texto-primario);
   border-bottom: 1px solid var(--oro-primario);
   padding-bottom: 0.25rem;
 }
@@ -522,7 +522,7 @@ input, textarea, select {
   font-size: 0.8rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
   margin-bottom: var(--espacio-md);
   display: flex;
   align-items: center;
@@ -593,7 +593,7 @@ input, textarea, select {
 .stat-item__numero {
   font-family: var(--fuente-titular);
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--oro-primario);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -603,7 +603,7 @@ input, textarea, select {
   font-family: var(--fuente-label);
   font-style: italic;
   font-size: 0.85rem;
-  color: var(--oro-oscuro);
+  color: var(--texto-secundario);
   letter-spacing: 0.12em;
   text-transform: lowercase;
 }
@@ -630,7 +630,7 @@ input, textarea, select {
 .timer__etiqueta {
   font-family: var(--fuente-cuerpo);
   font-size: 0.75rem;
-  color: var(--texto-tenue);
+  color: var(--texto-secundario);
   text-transform: lowercase;
   letter-spacing: 0.15em;
 }
@@ -1004,8 +1004,10 @@ input, textarea, select {
   gap: var(--espacio-sm);
 }
 
-/* Ajuste para que el botón en el header no se vea gigante */
-.form-libro__header-acciones .btn {
+/* Unificar tamaño de todos los botones del formulario para que sean iguales al modelo GUARDAR */
+.form-libro__header-acciones .btn,
+.form-libro__acciones .btn,
+.form-libro__carga-portada .btn {
   padding: 0.4rem 1.2rem;
   font-size: 0.8rem;
 }
@@ -1447,12 +1449,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   color: var(--oro-primario);
 }
 .bib-stat-label {
-  font-family: var(--fuente-label);
-  text-transform: lowercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.25em;
-  color: var(--oro-tenue);
-  margin-top: 0.5rem;
+  font-family: var(--fuente-titular);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
 }
 
 .bib-layout {
@@ -1514,7 +1515,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .bib-main-grid h2 {
   font-family: var(--fuente-titular);
   font-size: 1.25rem;
-  color: var(--oro-primario);
+  color: var(--texto-primario);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1744,11 +1745,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .bib-dp-labels {
   display: flex;
   justify-content: space-between;
-  font-family: var(--fuente-label);
-  font-size: 0.75rem;
-  color: var(--oro-tenue);
-  text-transform: lowercase;
-  letter-spacing: 0.25em;
+  font-family: var(--fuente-titular);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 /* Fix-03: Named class to replace inline grid style in Biblioteca footer */
@@ -2254,11 +2254,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .reporte-stat__label {
-  font-family: var(--fuente-cuerpo);
-  font-size: 0.75rem;
-  color: var(--texto-tenue);
-  text-transform: lowercase;
-  letter-spacing: 0.12em;
+  font-family: var(--fuente-titular);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--texto-secundario);
 }
 
 /* ── Bar charts ──────────────────────────────────────────────────────────── */
@@ -2850,7 +2850,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--oro-primario);
+  color: var(--texto-primario);
   line-height: 1.1;
   margin-bottom: 0.75rem;
 }
@@ -2881,10 +2881,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--oro-primario);
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--oro-oscuro);
+  color: var(--texto-secundario);
   margin-bottom: 2rem;
+  text-align: center;
   flex: 1;
 }
 
@@ -2941,7 +2940,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .iv-stat-numero {
   font-family: var(--fuente-titular);
   font-size: 2.6rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--oro-primario);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -2952,7 +2951,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.6rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
   line-height: 1.4;
 }
 
@@ -3134,7 +3133,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-family: var(--fuente-titular);
   font-size: 0.7rem;
   letter-spacing: 0.25em;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
   text-transform: uppercase;
 }
 
@@ -3160,7 +3159,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.6rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #5a4a20;
+  color: var(--oro-silenciado);
   background: none;
   border: none;
   cursor: pointer;
@@ -3171,7 +3170,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-bottom: 2rem; /* aligns with title bottom border rhythm */
 }
 .iv-desafio-edit-btn:hover {
-  color: var(--oro-silenciado);
+  color: var(--oro-primario);
 }
 
 /* Empty state variant for desafío (no goal set) */
@@ -3228,7 +3227,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--oro-oscuro);
+  color: var(--oro-silenciado);
   background: none;
   border: none;
   cursor: pointer;
@@ -3236,7 +3235,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   transition: color 0.2s ease;
 }
 .iv-desafio-cancelar:hover {
-  color: var(--oro-silenciado);
+  color: var(--oro-primario);
 }
 
 /* ── Two-column layout ── */
@@ -3264,7 +3263,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .iv-desafio-big {
   font-family: var(--fuente-titular);
   font-size: 3.5rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--oro-primario);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -3275,7 +3274,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.58rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
 }
 
 .iv-desafio-sep {
@@ -3307,7 +3306,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 0.55rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--oro-silenciado);
+  color: var(--texto-secundario);
 }
 
 /* on_track indicator */
@@ -3338,7 +3337,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .iv-desafio-barra-pct {
   font-family: var(--fuente-titular);
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   letter-spacing: 0.15em;
   color: var(--oro-primario);
   text-align: center;
@@ -3359,7 +3358,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .iv-desafio-meta-label {
   font-family: var(--fuente-titular);
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--oro-silenciado);

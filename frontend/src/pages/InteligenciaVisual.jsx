@@ -161,7 +161,7 @@ function BloqueDesafio({ year }) {
             className="iv-desafio-edit-btn"
             onClick={() => abrirEditor(hasGoal ? progress.target_books : '')}
           >
-            {hasGoal ? 'EDITAR META' : 'ESTABLECER META'}
+            {hasGoal ? '◆ EDITAR META' : '◆ ESTABLECER META'}
           </button>
         )}
       </div>
@@ -187,13 +187,13 @@ function BloqueDesafio({ year }) {
             onClick={handleGuardar}
             disabled={guardando}
           >
-            GUARDAR
+            ◆ GUARDAR
           </button>
           <button
             className="iv-desafio-cancelar"
             onClick={() => setEditando(false)}
           >
-            CANCELAR
+            ◆ CANCELAR
           </button>
         </div>
       )}

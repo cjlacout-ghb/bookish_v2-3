@@ -118,13 +118,15 @@ export default function Sesiones() {
 
           {/* Page title */}
           <div className="timers-page__header">
-            <h1 className="timers-page__titulo">Sesiones</h1>
-            <p className="timers-page__subtitulo">Panel de lectura activa</p>
+            <h1 className="timers-page__titulo">SESIONES</h1>
+            <p className="timers-page__subtitulo">Panel de lectura activa.</p>
           </div>
 
           {/* ── Leyendo ahora ──────────────────────────────────────────── */}
           <section className="seccion-bloque">
-            <h2 className="seccion-titulo">◷ Leyendo ahora</h2>
+            <h2 style={{ marginBottom: 'var(--espacio-md)' }}>
+              Leyendo Ahora
+            </h2>
             {cargando ? (
               <div className="cargando">◆ Cargando ◆</div>
             ) : activas.length === 0 ? (
@@ -176,21 +178,21 @@ export default function Sesiones() {
                           className="btn btn-sm btn-primario"
                           onClick={() => accionTimer(sesion.libro_id, 'resume')}
                         >
-                          <IconIniciar /> Reanudar
+                          <IconIniciar /> REANUDAR
                         </button>
                       ) : (
                         <button
                           className="btn btn-sm btn-secundario"
                           onClick={() => accionTimer(sesion.libro_id, 'pause')}
                         >
-                          <IconPausar /> Pausar
+                          <IconPausar /> PAUSAR
                         </button>
                       )}
                       <button
                         className="btn btn-sm btn-peligro"
                         onClick={() => accionTimer(sesion.libro_id, 'stop')}
                       >
-                        <IconDetener /> Detener
+                        <IconDetener /> DETENER
                       </button>
                     </div>
                   </div>
@@ -201,8 +203,10 @@ export default function Sesiones() {
 
           {/* ── Hoy ───────────────────────────────────────────────────── */}
           <section className="seccion-bloque">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <h2 className="seccion-titulo" style={{ marginBottom: 0 }}>◈ Hoy</h2>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--espacio-md)' }}>
+              <h2>
+                Hoy
+              </h2>
               {totalHoy > 0 && (
                 <span className="timers-hoy__total">
                   Total: <strong>{formatearTiempo(totalHoy)}</strong>

@@ -410,14 +410,14 @@ export default function Timer({
                 onClick={confirmarStop}
                 disabled={guardando}
               >
-                {guardando ? 'Guardando...' : 'GUARDAR Y FINALIZAR'}
+                {guardando ? 'Guardando...' : '◆ GUARDAR Y FINALIZAR'}
               </button>
               <button
                 className="btn btn-secundario"
                 onClick={cancelarStop}
                 disabled={guardando}
               >
-                CANCELAR
+                ◆ CANCELAR
               </button>
             </div>
           </div>

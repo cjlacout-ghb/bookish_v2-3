@@ -57,7 +57,7 @@ function TarjetaLibro({ libro }) {
 
 
         <button className="noir-card-btn">
-          {libro.estado === 'leyendo' ? 'Continuar' : (libro.estado === 'por_leer' ? 'Comenzar' : 'Ver Detalles')}
+          {libro.estado === 'leyendo' ? '◆ CONTINUAR' : (libro.estado === 'por_leer' ? '◆ COMENZAR' : '◆ VER DETALLES')}
         </button>
       </div>
     </article>

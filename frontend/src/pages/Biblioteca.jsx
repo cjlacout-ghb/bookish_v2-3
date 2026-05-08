@@ -102,7 +102,9 @@ export default function Biblioteca() {
               <div className="bib-main-header">
                 <h2>{filtro === 'leyendo' ? 'Leyendo Ahora' : (FILTROS.find(f => f.clave === filtro)?.etiqueta || 'Colección')}</h2>
                 <span className="bib-main-subtitle">
-                  {filtro === 'leyendo' ? `${librosLeyendo.length} volúmenes` : `${librosFiltrados.length} volúmenes`}
+                  {filtro === 'leyendo'
+                    ? `${librosLeyendo.length} ${librosLeyendo.length === 1 ? 'volumen' : 'volúmenes'}`
+                    : `${librosFiltrados.length} ${librosFiltrados.length === 1 ? 'volumen' : 'volúmenes'}`}
                 </span>
               </div>
             </div>
@@ -146,7 +148,7 @@ export default function Biblioteca() {
                       ></div>
                     </div>
                     <div className="bib-dp-labels">
-                      <span>{paginasLeidasLeyendo} de {paginasTotalesLeyendo} págs.</span>
+                      <span style={{ color: 'var(--texto-secundario)' }}>{paginasLeidasLeyendo} de {paginasTotalesLeyendo} págs.</span>
                       <span style={{color: 'var(--oro-primario)'}}>
                          {porcentajeLecturaActiva}%
                       </span>

@@ -271,7 +271,7 @@ export default function DetalleLibro() {
                   className="btn btn-secundario"
                   onClick={() => navigate(`/libro/${id}/editar`)}
                 >
-                  Ver + datos
+                  ◆ VER + DATOS
                 </button>
               </div>
             </div>
@@ -294,7 +294,7 @@ export default function DetalleLibro() {
           {/* Reseña */}
           {libro.resena && (
             <section className="seccion-bloque" aria-label="Reseña personal">
-              <h2 className="seccion-titulo">◆ Reseña personal</h2>
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>◆ Reseña personal</h2>
               <blockquote className="resena-bloque">{libro.resena}</blockquote>
             </section>
           )}
@@ -303,13 +303,13 @@ export default function DetalleLibro() {
           {/* Notas y Citas */}
           <section className="seccion-bloque" aria-label="Notas y citas">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--espacio-md)' }}>
-              <h2 className="seccion-titulo" style={{ marginBottom: 0 }}>◈ Notas y citas</h2>
+              <h2 className="seccion-titulo" style={{ marginBottom: 0, color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>◈ Notas y citas</h2>
               <button
                 id="btn-nueva-nota"
                 className="btn btn-primario"
                 onClick={() => setMostrarModal(true)}
               >
-                + Nueva
+                ◆ NUEVA
               </button>
             </div>
 
@@ -353,7 +353,7 @@ export default function DetalleLibro() {
           {/* Historial de Lectura (Sesiones) */}
           {sesiones.length > 0 && (
             <section className="seccion-bloque" aria-label="Historial de lectura">
-              <h2 className="seccion-titulo" style={{ marginBottom: 'var(--espacio-md)' }}>◈ Historial de lectura</h2>
+              <h2 className="seccion-titulo" style={{ marginBottom: 'var(--espacio-md)', color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>◈ Historial de lectura</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--espacio-md)' }}>
                 {sesiones.map((sesion) => (
                   <div key={sesion.id} className="nota-item">

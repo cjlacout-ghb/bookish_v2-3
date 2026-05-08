@@ -120,9 +120,9 @@ export default function ModalEditarSesion({ sesion, onCerrar, onGuardada }) {
           {error && <p style={{ color: 'var(--texto-error)', fontSize: '0.85rem' }}>✕ {error}</p>}
         </div>
         <div className="modal-pie" style={{ display: 'flex', gap: '0.8rem', justifyContent: 'flex-end' }}>
-          <button className="btn btn-secundario" onClick={onCerrar}>Cancelar</button>
+          <button className="btn btn-secundario" onClick={onCerrar}>◆ CANCELAR</button>
           <button className="btn btn-primario" onClick={guardar} disabled={guardando}>
-            {guardando ? '...' : 'Guardar'}
+            {guardando ? '...' : '◆ GUARDAR'}
           </button>
         </div>
       </div>

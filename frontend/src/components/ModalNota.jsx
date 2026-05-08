@@ -110,7 +110,7 @@ function ModalNota({ libroId, onCerrar, onGuardada }) {
             onClick={onCerrar}
             id="btn-cancelar-nota"
           >
-            Cancelar
+            ◆ CANCELAR
           </button>
           <button
             type="button"
@@ -119,7 +119,7 @@ function ModalNota({ libroId, onCerrar, onGuardada }) {
             disabled={guardando}
             id="btn-guardar-nota"
           >
-            {guardando ? 'Guardando...' : 'Guardar'}
+            {guardando ? '...' : '◆ GUARDAR'}
           </button>
         </div>
       </div>

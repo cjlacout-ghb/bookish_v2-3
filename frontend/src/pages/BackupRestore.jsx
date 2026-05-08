@@ -61,8 +61,8 @@ export default function BackupRestore() {
       <main className="pagina">
         <div className="reportes-page animar-entrada">
           <div className="timers-page__header">
-            <h1 className="timers-page__titulo">Respaldo y Restauración</h1>
-            <p className="timers-page__subtitulo">Gestiona los datos de tu biblioteca Bookish</p>
+            <h1 className="timers-page__titulo">RESPALDO Y RESTAURACIÓN</h1>
+            <p className="timers-page__subtitulo">Gestiona los datos de tu biblioteca Bookish.</p>
           </div>
 
           <section style={{ maxWidth: '800px', margin: '4rem auto 0', display: 'flex', flexDirection: 'column', gap: '3rem' }}>
@@ -82,26 +82,25 @@ export default function BackupRestore() {
             <div className="seccion-bloque" style={{ padding: '2rem', border: '1px solid var(--oro-oscuro)', background: 'var(--sup-media)', borderRadius: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                 <span className="material-symbols-outlined" style={{ fontSize: '2rem', color: 'var(--oro-primario)' }}>cloud_download</span>
-                <h2 className="seccion-titulo" style={{ margin: 0 }}>Exportar Biblioteca</h2>
+                <h2 className="seccion-titulo" style={{ margin: 0, color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>Exportar biblioteca</h2>
               </div>
               <p style={{ color: 'var(--texto-tenue)', marginBottom: '2rem' }}>
                 Descarga un archivo ZIP con toda tu base de datos y las imágenes (portadas y capturas). Usa esto para tener una copia de seguridad segura de todo tu historial de lectura.
               </p>
               <button 
-                className="btn-primario" 
+                className="btn btn-primario" 
                 onClick={handleExport}
                 disabled={loading}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.25rem', alignSelf: 'flex-start' }}
               >
-                <span className="material-symbols-outlined nav-icon" style={{ fontSize: '1.25rem' }}>download</span>
-                Descargar Backup
+                ◆ DESCARGAR BACKUP
               </button>
             </div>
 
             <div className="seccion-bloque" style={{ padding: '2rem', border: '1px solid var(--oro-oscuro)', background: 'var(--sup-media)', borderRadius: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                 <span className="material-symbols-outlined" style={{ fontSize: '2rem', color: 'var(--oro-primario)' }}>cloud_upload</span>
-                <h2 className="seccion-titulo" style={{ margin: 0 }}>Importar / Restaurar</h2>
+                <h2 className="seccion-titulo" style={{ margin: 0, color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>Importar / restaurar</h2>
               </div>
               <p style={{ color: 'var(--texto-tenue)', marginBottom: '1rem' }}>
                 Si cambiaste de computadora o tienes una copia de seguridad previa, puedes restaurarla aquí. Asegúrate de seleccionar un archivo ZIP generado por la función de exportación.
@@ -145,12 +144,11 @@ export default function BackupRestore() {
                   style={{ display: 'none' }}
                 />
                 <button 
-                  className="btn-primario" 
+                  className="btn btn-primario" 
                   onClick={handleImport}
                   style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1.25rem', alignSelf: 'flex-start' }}
                 >
-                  <span className="material-symbols-outlined nav-icon" style={{ fontSize: '1.25rem' }}>upload</span>
-                  {loading ? 'Restaurando...' : 'Restaurar Biblioteca'}
+                  {loading ? '...' : '◆ RESTAURAR BIBLIOTECA'}
                 </button>
               </div>
             </div>

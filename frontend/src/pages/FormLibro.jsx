@@ -297,7 +297,7 @@ export default function FormLibro() {
                   }}
                   id="btn-habilitar-edicion-top"
                 >
-                  ✎ Editar
+                  ◆ EDITAR
                 </button>
               ) : (
                 <button
@@ -307,7 +307,7 @@ export default function FormLibro() {
                   disabled={guardando}
                   id="btn-guardar-libro-top"
                 >
-                  {guardando ? '...' : (esEdicion ? 'Actualizar' : '◆ Guardar')}
+                  {guardando ? '...' : (esEdicion ? '◆ ACTUALIZAR' : '◆ GUARDAR')}
                 </button>
               )}
             </div>
@@ -547,7 +547,7 @@ export default function FormLibro() {
             </div>
 
             {/* Reseña */}
-            <div className="campo form-libro__campo-unico">
+            <div className="campo" style={{ marginBottom: 'var(--espacio-lg)' }}>
               <label className="campo__etiqueta" htmlFor="f-resena">reseña personal</label>
               <textarea
                 id="f-resena"
@@ -573,7 +573,7 @@ export default function FormLibro() {
               )}
               <div className="campo">
                 <span className="campo__etiqueta">Portada del libro</span>
-                <div style={{ paddingTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <div style={{ paddingTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'flex-start' }}>
                   <input
                     ref={inputArchivoRef}
                     type="file"
@@ -583,8 +583,8 @@ export default function FormLibro() {
                     onChange={handlePortada}
                     disabled={formHabilitado ? undefined : true}
                   />
-                  <label htmlFor="f-portada" className="btn-archivo" style={{ opacity: !formHabilitado ? 0.5 : 1, pointerEvents: !formHabilitado ? 'none' : 'auto' }}>
-                    {portadaPreview || portadaExistente ? '↺ Cambiar imagen' : '↑ Subir portada'}
+                  <label htmlFor="f-portada" className="btn btn-primario" style={{ opacity: !formHabilitado ? 0.5 : 1, pointerEvents: !formHabilitado ? 'none' : 'auto' }}>
+                    {portadaPreview || portadaExistente ? '◆ CAMBIAR IMAGEN' : '◆ SUBIR PORTADA'}
                   </label>
                   <span style={{ fontSize: '0.8rem', color: 'var(--texto-tenue)' }}>
                     JPG, PNG o WEBP
@@ -599,11 +599,11 @@ export default function FormLibro() {
             <div className="form-libro__acciones">
               <button
                 type="button"
-                className="btn btn-secundario"
+                className="btn btn-primario"
                 onClick={(e) => { e.preventDefault(); navigate(esEdicion ? `/libro/${id}` : '/biblioteca'); }}
                 id="btn-cancelar-form"
               >
-                Volver
+                ◆ VOLVER
               </button>
               
               <div className="form-libro__acciones-derecha">
@@ -615,7 +615,7 @@ export default function FormLibro() {
                       className="btn btn-peligro"
                       onClick={(e) => { e.preventDefault(); setPasoEliminar(1); }}
                     >
-                      ✕ Eliminar
+                      ✕ ELIMINAR
                     </button>
                   ) : pasoEliminar === 1 ? (
                     <div className="btn-alerta">

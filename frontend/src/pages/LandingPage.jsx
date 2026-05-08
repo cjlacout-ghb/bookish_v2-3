@@ -35,7 +35,7 @@ export default function LandingPage() {
             </p>
             <div className="hero-buttons">
               <Link to="/biblioteca" className="btn-landing primary">
-                la biblioteca
+                La Biblioteca
               </Link>
               <Link to="/agregar" className="btn-landing secondary">
                 Agregar Libro
@@ -138,13 +138,13 @@ export default function LandingPage() {
             
             <div className="bento-item bento-small stat-box">
               <span className="material-symbols-outlined stat-icon" data-icon="auto_stories">auto_stories</span>
-              <div className="stat-label">Páginas Leídas</div>
+              <div className="stat-label">PÁGINAS LEÍDAS</div>
               <div className="stat-value">14,802</div>
             </div>
             
             <div className="bento-item bento-small stat-box alt-bg">
               <span className="material-symbols-outlined stat-icon" data-icon="explore">explore</span>
-              <div className="stat-label">Mundos Explorados</div>
+              <div className="stat-label">MUNDOS EXPLORADOS</div>
               <div className="stat-value">42</div>
             </div>
           </div>
