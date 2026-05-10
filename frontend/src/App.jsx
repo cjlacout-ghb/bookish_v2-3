@@ -10,6 +10,7 @@ import GuiaUsuario from './pages/GuiaUsuario.jsx'
 import BackupRestore from './pages/BackupRestore.jsx'
 import InteligenciaVisual from './pages/InteligenciaVisual.jsx'
 import BackButton from './components/BackButton.jsx'
+import MapaDeMundos from './pages/MapaDeMundos.jsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/guia" element={<GuiaUsuario />} />
         <Route path="/backup" element={<BackupRestore />} />
         <Route path="/inteligencia-visual" element={<InteligenciaVisual />} />
+        <Route path="/mapa-de-mundos" element={<MapaDeMundos />} />
       </Routes>
     </Router>
   )

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Date, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Date, Float, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import enum
@@ -82,3 +82,19 @@ class ReadingGoal(Base):
     target_books  = Column(Integer, nullable=False, default=0)
     created_at    = Column(DateTime, default=datetime.utcnow)
     updated_at    = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class MapLocation(Base):
+    __tablename__ = "map_locations"
+
+    id          = Column(Integer, primary_key=True, index=True)
+    book_id     = Column(Integer, ForeignKey("libros.id"), nullable=True)
+    name        = Column(String(500), nullable=False)
+    place_type  = Column(String(100))
+    is_fictional = Column(Boolean, default=False)
+    note        = Column(Text, nullable=True)
+    latitude    = Column(Float, nullable=False)
+    longitude   = Column(Float, nullable=False)
+    created_at  = Column(DateTime, default=datetime.utcnow)
+
+    libro = relationship("Libro", backref="map_locations")

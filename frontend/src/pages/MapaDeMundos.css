@@ -1,0 +1,792 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAPA DE MUNDOS — Art Déco map styles for Bookish
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Overall layout ─────────────────────────────────────────────────────── */
+.mapa-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.mapa-layout {
+  display: flex;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Map container ──────────────────────────────────────────────────────── */
+.mapa-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Override Leaflet tile attribution styling ──────────────────────────── */
+.leaflet-control-attribution {
+  background: rgba(10, 10, 10, 0.85) !important;
+  color: #756330 !important;
+  font-size: 10px !important;
+  border-top: 1px solid #3a2e0e !important;
+}
+.leaflet-control-attribution a {
+  color: #9a8040 !important;
+}
+
+/* Override leaflet zoom controls */
+.leaflet-control-zoom a {
+  background: #0a0a0a !important;
+  color: #c9a84c !important;
+  border: 1px solid #3a2e0e !important;
+  border-radius: 0 !important;
+  font-family: 'Cinzel', serif !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #181818 !important;
+  color: #e8d9a0 !important;
+}
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Custom pin ─────────────────────────────────────────────────────────── */
+.mapa-pin {
+  font-size: 24px;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer !important;
+  transition: transform 0.15s ease;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7));
+  font-family: serif;
+}
+.mapa-pin:hover {
+  transform: scale(1.2);
+}
+
+/* Force pointer cursor on the Leaflet marker wrapper too */
+.leaflet-marker-icon {
+  cursor: pointer !important;
+}
+
+/* ── Hover tooltip card ─────────────────────────────────────────────────── */
+.mapa-hover-card {
+  position: fixed;
+  z-index: 2000;
+  background: #0a0a0a;
+  border: 1px solid #8B6914;
+  border-radius: 0;
+  padding: 0.7rem 0.9rem;
+  max-width: 270px;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.mapa-tooltip__name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.mapa-tooltip__type {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: #9a8040;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.mapa-tooltip__book {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.88rem;
+  color: #ccc09b;
+  border-top: 1px solid #3a2e0e;
+  padding-top: 0.35rem;
+  margin-bottom: 0.2rem;
+  line-height: 1.3;
+}
+.mapa-tooltip__book-author {
+  color: #9a8040;
+}
+
+.mapa-tooltip__note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.84rem;
+  color: #9a8040;
+  line-height: 1.35;
+  margin-top: 0.25rem;
+}
+
+.mapa-tooltip__coords {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  color: #7a6029;
+  margin-top: 0.45rem;
+  border-top: 1px solid #221a08;
+  padding-top: 0.3rem;
+}
+
+
+/* ── Filter side panel ──────────────────────────────────────────────────── */
+.mapa-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: row;
+}
+
+.mapa-panel__tab {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  background: #0a0a0a;
+  border: none;
+  border-right: 1px solid #3a2e0e;
+  border-top: 1px solid #3a2e0e;
+  border-bottom: 1px solid #3a2e0e;
+  color: #c9a84c;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  padding: 1rem 0.4rem;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+.mapa-panel__tab:hover {
+  background: #111111;
+}
+.mapa-panel__tab-label {
+  white-space: nowrap;
+}
+
+.mapa-panel__body {
+  width: 0;
+  overflow: hidden;
+  background: #0a0a0a;
+  border-right: 1px solid #3a2e0e;
+  transition: width 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+  opacity: 0;
+}
+
+.mapa-panel--open .mapa-panel__body {
+  width: 220px;
+  opacity: 1;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+}
+
+.mapa-panel__title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: #c9a84c;
+  text-transform: uppercase;
+}
+
+.mapa-panel__sep {
+  height: 1px;
+  background: #3a2e0e;
+  margin: 0 -1rem;
+}
+
+.mapa-panel__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mapa-panel__label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: #9a8040;
+  text-transform: uppercase;
+}
+
+.mapa-panel__select {
+  background: #111111;
+  border: 1px solid #3a2e0e;
+  color: #e8d9a0;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.mapa-panel__select:focus {
+  border-color: #8B6914;
+}
+.mapa-panel__select option {
+  background: #181818;
+  color: #e8d9a0;
+}
+
+.mapa-panel__origin-btns {
+  display: flex;
+  gap: 0;
+}
+
+.mapa-origin-btn {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.2rem;
+  border: 1px solid #3a2e0e;
+  background: transparent;
+  color: #9a8040;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mapa-origin-btn + .mapa-origin-btn {
+  border-left: none;
+}
+.mapa-origin-btn--active {
+  background: #c9a84c;
+  color: #0a0a0a;
+  border-color: #c9a84c;
+}
+.mapa-origin-btn:hover:not(.mapa-origin-btn--active) {
+  color: #e8d9a0;
+  border-color: #756330;
+}
+
+.mapa-panel__clear {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #756330;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: auto;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+.mapa-panel__clear:hover {
+  color: #9a8040;
+}
+
+/* ── Pin counter & dropdown ──────────────────────────────────────────────── */
+.mapa-counter-wrapper {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 500;
+}
+
+.mapa-counter-btn {
+  background: #0a0a0a;
+  border: 1px solid #3a2e0e;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  display: block;
+  width: 100%;
+  text-align: right;
+}
+.mapa-counter-btn:hover {
+  border-color: #8B6914;
+  background: #111111;
+}
+
+.mapa-counter__text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: #c9a84c;
+  text-transform: uppercase;
+}
+
+.mapa-counter__sep {
+  color: #9a8040;
+  font-size: 0.65rem;
+}
+
+/* Dropdown Menu */
+.mapa-counter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.3rem;
+  background: #0a0a0a;
+  border: 1px solid #8B6914;
+  padding: 1rem;
+  width: max-content;
+  min-width: 220px;
+  max-height: 350px;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+
+.mapa-counter-wrapper:hover .mapa-counter-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Scrollbar for dropdown */
+.mapa-counter-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+.mapa-counter-dropdown::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+.mapa-counter-dropdown::-webkit-scrollbar-thumb {
+  background: #3a2e0e;
+}
+.mapa-counter-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #8B6914;
+}
+
+.mapa-counter-group {
+  margin-bottom: 1rem;
+}
+.mapa-counter-group:last-child {
+  margin-bottom: 0;
+}
+
+.mapa-counter-group-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: #c9a84c;
+  border-bottom: 1px solid #3a2e0e;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.mapa-counter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mapa-counter-list-item {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.85rem;
+  color: #e8d9a0;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  padding-left: 0.8rem;
+  position: relative;
+  margin-bottom: 0.2rem;
+}
+.mapa-counter-list-item::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: #9a8040;
+}
+.mapa-counter-list-item:hover {
+  color: #c9a84c;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────────── */
+.mapa-empty {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 400;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.mapa-empty__title {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #756330;
+  margin-bottom: 0.2rem;
+}
+.mapa-empty__hint {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  color: #5a4a20;
+}
+
+/* ── Popup / form overlay ───────────────────────────────────────────────── */
+.mapa-popup {
+  position: absolute;
+  bottom: 2rem;
+  right: 1rem;
+  z-index: 700;
+  background: #0a0a0a;
+  border: 1px solid #8B6914;
+  border-radius: 2px;
+  min-width: 260px;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Centered view mode (next to the centered marker) */
+.mapa-popup--center {
+  bottom: auto;
+  right: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(30px, -50%);
+  animation: popupFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes popupFadeIn {
+  from { opacity: 0; transform: translate(10px, -50%); }
+  to { opacity: 1; transform: translate(30px, -50%); }
+}
+
+.mapa-popup--form {
+  bottom: 2rem;
+  right: 1rem;
+}
+
+.mapa-popup__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem 0.6rem;
+  border-bottom: 1px solid #3a2e0e;
+}
+
+.mapa-popup__place-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  color: #c9a84c;
+  text-transform: uppercase;
+  flex: 1;
+  line-height: 1.2;
+}
+
+.mapa-popup__header-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: #9a8040;
+  text-transform: uppercase;
+}
+
+.mapa-popup__close {
+  background: none;
+  border: none;
+  color: #c9a84c;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 0 0 0.5rem;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+.mapa-popup__close:hover {
+  color: #e8d9a0;
+}
+
+.mapa-popup__body {
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mapa-popup__type {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: #9a8040;
+  text-transform: uppercase;
+}
+
+.mapa-popup__book {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.95rem;
+  color: #ccc09b;
+}
+.mapa-popup__book-title {
+  font-style: italic;
+}
+.mapa-popup__book-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: #c9a84c;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: #3a2e0e;
+  transition: text-decoration-color 0.15s ease;
+}
+.mapa-popup__book-link:hover {
+  text-decoration-color: #c9a84c;
+}
+
+.mapa-popup__note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #9a8040;
+  line-height: 1.4;
+}
+
+.mapa-popup__confirm-text {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  color: #e8d9a0;
+  font-size: 1rem;
+}
+
+.mapa-popup__footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem 0.8rem;
+  border-top: 1px solid #3a2e0e;
+}
+
+.mapa-popup__action {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a8040;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+.mapa-popup__action:hover {
+  color: #c9a84c;
+}
+.mapa-popup__action--danger {
+  color: #c0392b;
+}
+.mapa-popup__action--danger:hover {
+  color: #e74c3c;
+}
+
+/* ── Save / cancel buttons ──────────────────────────────────────────────── */
+.mapa-btn-save {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: #0a0a0a;
+  color: #c9a84c;
+  border: 1px solid #c9a84c;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-radius: 0;
+}
+.mapa-btn-save:hover {
+  background: #181818;
+}
+.mapa-btn-cancel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #756330;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+.mapa-btn-cancel:hover {
+  color: #9a8040;
+}
+
+/* ── Form elements inside popup ─────────────────────────────────────────── */
+.mapa-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.mapa-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.mapa-form__label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: #9a8040;
+  text-transform: uppercase;
+}
+.mapa-form__input {
+  background: #111111;
+  border: none;
+  border-bottom: 1px solid #3a2e0e;
+  color: #e8d9a0;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  padding: 0.35rem 0.2rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.mapa-form__input:focus {
+  border-bottom-color: #8B6914;
+}
+.mapa-form__input::placeholder {
+  color: #756330;
+  font-style: italic;
+}
+.mapa-form__select {
+  background: #111111;
+  border: 1px solid #3a2e0e;
+  color: #e8d9a0;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 100%;
+}
+.mapa-form__select option {
+  background: #181818;
+  color: #e8d9a0;
+}
+.mapa-form__select:focus {
+  border-color: #8B6914;
+}
+.mapa-form__textarea {
+  background: #111111;
+  border: 1px solid #3a2e0e;
+  color: #e8d9a0;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  resize: vertical;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.15s ease;
+}
+.mapa-form__textarea:focus {
+  border-color: #8B6914;
+}
+.mapa-form__textarea::placeholder {
+  color: #756330;
+  font-style: italic;
+}
+.mapa-form__error {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  color: #c0392b;
+  letter-spacing: 0.1em;
+}
+
+/* ── Real/Ficticio toggle ───────────────────────────────────────────────── */
+.mapa-toggle {
+  display: flex;
+}
+.mapa-toggle__btn {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0;
+  border: 1px solid #3a2e0e;
+  background: transparent;
+  color: #9a8040;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mapa-toggle__btn + .mapa-toggle__btn {
+  border-left: none;
+}
+.mapa-toggle__btn--active {
+  background: #c9a84c;
+  color: #0a0a0a;
+  border-color: #c9a84c;
+}
+
+/* ── Override Leaflet default popup (safety) ────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  background: #0a0a0a !important;
+  border: 1px solid #8B6914 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  color: #e8d9a0 !important;
+  padding: 0 !important;
+}
+.leaflet-popup-tip-container {
+  display: none !important;
+}
+.leaflet-popup-close-button {
+  color: #c9a84c !important;
+}
+
+/* ── Custom Art Déco golden crosshair cursor ────────────────────────────── */
+/*
+  SVG: 32×32 px, hot-spot centrado (16,16)
+  — Cuatro brazos rectos
+  — Diamante central ◆
+  — Marcas de esquina cortas
+  — Color: oro #c9a84c con contorno oscuro para legibilidad sobre el mapa
+*/
+:root {
+  --cursor-deco: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3C!-- shadow strokes for contrast --%3E%3Cline x1='16' y1='1' x2='16' y2='10' stroke='%230a0a0a' stroke-width='3' stroke-linecap='square'/%3E%3Cline x1='16' y1='22' x2='16' y2='31' stroke='%230a0a0a' stroke-width='3' stroke-linecap='square'/%3E%3Cline x1='1' y1='16' x2='10' y2='16' stroke='%230a0a0a' stroke-width='3' stroke-linecap='square'/%3E%3Cline x1='22' y1='16' x2='31' y2='16' stroke='%230a0a0a' stroke-width='3' stroke-linecap='square'/%3E%3Cpath d='M16 9 L23 16 L16 23 L9 16 Z' fill='%230a0a0a' stroke='%230a0a0a' stroke-width='2'/%3E%3C!-- gold strokes --%3E%3Cline x1='16' y1='1' x2='16' y2='10' stroke='%23c9a84c' stroke-width='1.5' stroke-linecap='square'/%3E%3Cline x1='16' y1='22' x2='16' y2='31' stroke='%23c9a84c' stroke-width='1.5' stroke-linecap='square'/%3E%3Cline x1='1' y1='16' x2='10' y2='16' stroke='%23c9a84c' stroke-width='1.5' stroke-linecap='square'/%3E%3Cline x1='22' y1='16' x2='31' y2='16' stroke='%23c9a84c' stroke-width='1.5' stroke-linecap='square'/%3E%3Cpath d='M16 9 L23 16 L16 23 L9 16 Z' fill='none' stroke='%23c9a84c' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23c9a84c'/%3E%3C!-- corner ticks --%3E%3Cline x1='12' y1='12' x2='10' y2='10' stroke='%23c9a84c' stroke-width='1' opacity='0.7'/%3E%3Cline x1='20' y1='12' x2='22' y2='10' stroke='%23c9a84c' stroke-width='1' opacity='0.7'/%3E%3Cline x1='12' y1='20' x2='10' y2='22' stroke='%23c9a84c' stroke-width='1' opacity='0.7'/%3E%3Cline x1='20' y1='20' x2='22' y2='22' stroke='%23c9a84c' stroke-width='1' opacity='0.7'/%3E%3C/svg%3E") 16 16, crosshair;
+}
+
+/* Apply to all Leaflet interactive states */
+.leaflet-container {
+  cursor: var(--cursor-deco) !important;
+}
+.leaflet-grab {
+  cursor: var(--cursor-deco) !important;
+}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+  cursor: var(--cursor-deco) !important;
+}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-container {
+  cursor: var(--cursor-deco) !important;
+}
+

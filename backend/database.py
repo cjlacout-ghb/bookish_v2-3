@@ -25,5 +25,5 @@ def get_db():
 
 
 def init_db():
-    from models import Libro, Nota, SesionLectura  # noqa
+    from models import Libro, Nota, SesionLectura, MapLocation  # noqa
     Base.metadata.create_all(bind=engine)

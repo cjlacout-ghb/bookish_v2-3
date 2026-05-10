@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import init_db
-from routers import libros, notas, sesiones, estadisticas, backup, stats, goals
+from routers import libros, notas, sesiones, estadisticas, backup, stats, goals, mapa
 
 # STEP 1 — Lifespan: only init_db, no StaticFiles for covers
 @asynccontextmanager
@@ -49,6 +49,7 @@ app.include_router(estadisticas.router, prefix="/api",          tags=["Estadisti
 app.include_router(backup.router,       prefix="/api/backup",   tags=["Backup"])
 app.include_router(stats.router,        prefix="/api",          tags=["Stats"])
 app.include_router(goals.router,        prefix="/api",          tags=["Goals"])
+app.include_router(mapa.router,         prefix="/api/map",      tags=["Mapa"])
 
 if __name__ == "__main__":
     import uvicorn

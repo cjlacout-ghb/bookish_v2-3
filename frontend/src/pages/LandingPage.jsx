@@ -84,13 +84,15 @@ export default function LandingPage() {
             
             {/* Feature 3: The Map of Worlds */}
             <div className="feature-card">
-              <div className="feature-icon-wrapper">
-                  <span className="feature-icon">◉</span>
-              </div>
-              <h3 className="feature-title">El Mapa de Mundos</h3>
+              <Link to="/mapa-de-mundos" className="feature-card__link">
+                <div className="feature-icon-wrapper">
+                    <span className="feature-icon">◉</span>
+                </div>
+                <h3 className="feature-title">El Mapa de Mundos</h3>
+              </Link>
               <div className="feature-divider"></div>
               <p className="feature-text">
-                Próximamente. Mapas interactivos de lugares ficticios. Traza tu viaje por la Tierra Media o las calles victorianas de Londres.
+                Cartografía los lugares de tus libros. Fija mundos reales y ficticios en un mapa oscuro unificado.
               </p>
             </div>
           </div>

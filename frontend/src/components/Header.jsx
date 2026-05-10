@@ -51,6 +51,12 @@ function Header() {
         >
           INTELIGENCIA VISUAL
         </Link>
+        <Link 
+          to="/mapa-de-mundos" 
+          className={`nav-link ${location.pathname === '/mapa-de-mundos' ? 'active' : ''}`}
+        >
+          EL MAPA DE MUNDOS
+        </Link>
 
       </nav>
 
