@@ -129,6 +129,19 @@ input, textarea, select {
   text-transform: uppercase;
   color: var(--oro-primario);
   font-family: var(--fuente-titular);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.landing-version {
+  font-size: 0.7rem;
+  color: var(--texto-tenue);
+  font-family: var(--fuente-titular);
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  margin-top: 0.1rem;
+  opacity: 0.8;
 }
 
 .landing-nav {

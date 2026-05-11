@@ -80,13 +80,15 @@ async def import_database(file: UploadFile = File(...)):
     """Receives a zip file and overwrites the database and media folders."""
 
     # 2a. Validate file extension first — before touching anything
-    if not file.filename.endswith(".zip"):
+    if not (file.filename.endswith(".zip") or file.filename.endswith(".db")):
         raise HTTPException(
             status_code=400,
-            detail="Backup file must be a .zip"
+            detail="Backup file must be a .zip or .db"
         )
 
-    temp_file = NamedTemporaryFile(delete=False, suffix=".zip")
+    is_db_file = file.filename.endswith(".db")
+    suffix = ".db" if is_db_file else ".zip"
+    temp_file = NamedTemporaryFile(delete=False, suffix=suffix)
 
     try:
         # 2b. Write uploaded content to temp file
@@ -94,25 +96,33 @@ async def import_database(file: UploadFile = File(...)):
         temp_file.write(content)
         temp_file.close()
 
-        # FIX: Validate zip BEFORE disposing engine
-        # Previously, engine.dispose() ran before validation — leaving
-        # the DB connectionless if the zip turned out to be invalid
-        if not zipfile.is_zipfile(temp_file.name):
-            raise HTTPException(
-                status_code=400,
-                detail="Uploaded file is not a valid ZIP archive"
-            )
+        if is_db_file:
+            # It's a legacy .db file
+            engine.dispose()
+            db_path = os.path.join(DATA_DIR, "bookish.db")
+            shutil.copy2(temp_file.name, db_path)
+            return {
+                "message": "Base de datos antigua restaurada con éxito. Por favor, recarga la aplicación."
+            }
+        else:
+            # It's a full .zip backup
+            # FIX: Validate zip BEFORE disposing engine
+            if not zipfile.is_zipfile(temp_file.name):
+                raise HTTPException(
+                    status_code=400,
+                    detail="Uploaded file is not a valid ZIP archive"
+                )
 
-        # 2c. Only dispose engine AFTER we know the zip is valid
-        engine.dispose()
+            # 2c. Only dispose engine AFTER we know the zip is valid
+            engine.dispose()
 
-        # 2d. Extract zip contents into DATA_DIR
-        with zipfile.ZipFile(temp_file.name, "r") as zipf:
-            zipf.extractall(DATA_DIR)
+            # 2d. Extract zip contents into DATA_DIR
+            with zipfile.ZipFile(temp_file.name, "r") as zipf:
+                zipf.extractall(DATA_DIR)
 
-        return {
-            "message": "Backup imported successfully. Please restart the application."
-        }
+            return {
+                "message": "Backup restaurado con éxito. Por favor, recarga la aplicación."
+            }
 
     except HTTPException:
         # Re-raise HTTP exceptions without wrapping them

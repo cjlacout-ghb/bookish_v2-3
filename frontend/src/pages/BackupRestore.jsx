@@ -31,7 +31,7 @@ export default function BackupRestore() {
 
   const handleImport = async () => {
     if (!file) {
-      setError("Por favor, selecciona un archivo .zip para importar.");
+      setError("Por favor, selecciona un archivo .zip o .db para importar.");
       return;
     }
 
@@ -103,7 +103,7 @@ export default function BackupRestore() {
                 <h2 className="seccion-titulo" style={{ margin: 0, color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>Importar / restaurar</h2>
               </div>
               <p style={{ color: 'var(--texto-tenue)', marginBottom: '1rem' }}>
-                Si cambiaste de computadora o tienes una copia de seguridad previa, puedes restaurarla aquí. Asegúrate de seleccionar un archivo ZIP generado por la función de exportación.
+                Si cambiaste de computadora o tienes una copia de seguridad previa, puedes restaurarla aquí. Asegúrate de seleccionar un archivo ZIP (o un archivo .DB de versiones anteriores).
               </p>
               <div style={{ margin: '1rem 0', padding: '1rem', background: 'rgba(255, 50, 50, 0.1)', borderLeft: '4px solid #ff4444', borderRadius: '4px' }}>
                 <p style={{ margin: 0, color: 'var(--blanco)', fontSize: '0.9rem' }}>
@@ -133,12 +133,12 @@ export default function BackupRestore() {
                     {file ? 'task' : 'upload_file'}
                   </span>
                   <span style={{ color: file ? 'var(--blanco)' : 'var(--texto-tenue)', fontSize: '0.95rem', fontFamily: 'var(--font-cuerpo)' }}>
-                    {file ? file.name : "Haz clic para buscar tu archivo ZIP"}
+                    {file ? file.name : "Haz clic para buscar tu archivo ZIP o DB"}
                   </span>
                 </label>
                 <input 
                   type="file" 
-                  accept=".zip"
+                  accept=".zip,.db"
                   onChange={handleFileChange}
                   id="backup-upload"
                   style={{ display: 'none' }}

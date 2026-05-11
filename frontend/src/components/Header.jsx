@@ -17,6 +17,7 @@ function Header() {
       >
         <div className="landing-logo">
           BOOKISH
+          <span className="landing-version">v2.3</span>
         </div>
       </Link>
       

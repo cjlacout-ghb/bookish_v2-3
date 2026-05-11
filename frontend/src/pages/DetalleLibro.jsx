@@ -327,6 +327,15 @@ export default function DetalleLibro() {
               )
             ) : (
               <>
+                {/* Notas */}
+                {notasSolas.map((nota) => (
+                  <MemoizedNotaItem key={nota.id} nota={nota} onEliminar={eliminarNota} />
+                ))}
+
+                {notasSolas.length > 0 && citas.length > 0 && (
+                  <div className="ornamento-divisor">◇</div>
+                )}
+
                 {/* Citas */}
                 {citas.length > 0 && (
                   <>
@@ -336,16 +345,8 @@ export default function DetalleLibro() {
                     {citas.map((nota) => (
                       <MemoizedNotaItem key={nota.id} nota={nota} onEliminar={eliminarNota} />
                     ))}
-                    {notasSolas.length > 0 && (
-                      <div className="ornamento-divisor">◇</div>
-                    )}
                   </>
                 )}
-
-                {/* Notas */}
-                {notasSolas.map((nota) => (
-                  <MemoizedNotaItem key={nota.id} nota={nota} onEliminar={eliminarNota} />
-                ))}
               </>
             )}
           </section>
