@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import Header from '../components/Header';
@@ -9,25 +9,54 @@ import './MapaDeMundos.css';
 const API = 'http://localhost:8000/api';
 
 // ── Custom pin icons ─────────────────────────────────────────────────────────
-function createPinIcon(fictional) {
+function createPinIcon(fictional, order = null) {
   const color = fictional ? '#e8d9a0' : '#c9a84c';
   const char  = fictional ? '◇' : '◆';
+  
+  let content = char;
+  if (order !== null) {
+    content = `
+      <div style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+        <span style="color:${color}; font-size:32px;">${char}</span>
+        <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-family:'Cinzel', serif; font-size:11px; color:#0d0d0d; font-weight:bold; pointer-events:none; margin-top:-1px;">${order}</span>
+      </div>
+    `;
+  }
+
   return L.divIcon({
     className: '',
-    iconSize: [24, 36],
-    iconAnchor: [12, 12],
+    iconSize: [32, 48],
+    iconAnchor: [16, 16],
     popupAnchor: [0, -16],
-    html: `<div class="mapa-pin ${fictional ? 'mapa-pin--ficticio' : 'mapa-pin--real'}" style="color:${color}">${char}</div>`,
+    html: `<div class="mapa-pin ${fictional ? 'mapa-pin--ficticio' : 'mapa-pin--real'}" style="color:${color}">${content}</div>`,
   });
+}
+
+// ── Recorrido map behavior ───────────────────────────────────────────────────
+function RecorridoEffect({ showRecorrido, locations }) {
+  const map = useMap();
+  useEffect(() => {
+    if (showRecorrido && locations.length > 1) {
+      const bounds = L.latLngBounds(locations.map(l => [l.latitude, l.longitude]));
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [40, 40] });
+      }
+    }
+  }, [showRecorrido, locations, map]);
+  return null;
 }
 
 // ── Map event handler (clears hover/handles clicks) ────────────────────────
 function MapEvents({ onMapClick, onClearHover }) {
+  const onMapClickRef = useRef(onMapClick);
+  useEffect(() => { onMapClickRef.current = onMapClick; }, [onMapClick]);
+
   useMapEvents({
-    click: (e) => onMapClick(e.latlng),
+    click: (e) => {
+      if (onMapClickRef.current) onMapClickRef.current(e.latlng);
+    },
     mouseover: () => onClearHover(), // Moving from marker to map
-    movestart: () => onClearHover(), // Map starts dragging
-    zoomstart: () => onClearHover(), // Map starts zooming
+    dragstart: () => onClearHover(), // Map starts dragging
   });
   return null;
 }
@@ -39,20 +68,24 @@ function FlyTo({ target }) {
     if (target) {
       const currentZoom = map.getZoom();
       const targetZoom = Math.max(currentZoom, 6); // Force zoom to at least level 6
-      map.flyTo([target.lat, target.lng], targetZoom, { duration: 1.2 });
+      map.flyTo([target.lat, target.lng], targetZoom, { 
+        duration: 1.8, 
+        easeLinearity: 0.25 
+      });
     }
   }, [target, map]);
   return null;
 }
 
 // ── Conditional Label Layer ──────────────────────────────────────────────────
-function LabelLayer({ isPopupOpen }) {
-  if (isPopupOpen) return null;
+function LabelLayer({ isPopupOpen, showRecorrido }) {
+  // Disminuye dramáticamente la opacidad si hay una tarjeta abierta o un recorrido activo
+  const currentOpacity = (isPopupOpen || showRecorrido) ? 0.15 : 0.9;
   return (
     <TileLayer
       url="https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
       attribution=""
-      opacity={0.9}
+      opacity={currentOpacity}
     />
   );
 }
@@ -64,7 +97,26 @@ export default function MapaDeMundos() {
   const [filterBook, setFilterBook]   = useState('');
   const [filterType, setFilterType]   = useState('');
   const [filterOrigin, setFilterOrigin] = useState('TODOS');
+  const [showRecorrido, setShowRecorrido] = useState(false);
+  const [closeRecorrido, setCloseRecorrido] = useState(false);
   const [panelOpen, setPanelOpen]     = useState(false);
+
+  useEffect(() => {
+    if (filterBook) {
+      const prefs = JSON.parse(localStorage.getItem(`bookish_map_prefs_${filterBook}`) || '{"showRecorrido":false,"closeRecorrido":false}');
+      setShowRecorrido(prefs.showRecorrido);
+      setCloseRecorrido(prefs.closeRecorrido);
+    } else {
+      setShowRecorrido(false);
+      setCloseRecorrido(false);
+    }
+  }, [filterBook]);
+
+  const saveMapPrefs = (show, close) => {
+    if (filterBook) {
+      localStorage.setItem(`bookish_map_prefs_${filterBook}`, JSON.stringify({ showRecorrido: show, closeRecorrido: close }));
+    }
+  };
   const [newPinLatLng, setNewPinLatLng] = useState(null);
   const [flyTarget, setFlyTarget]     = useState(null);
 
@@ -144,7 +196,7 @@ export default function MapaDeMundos() {
     if (filterOrigin === 'REALES'   && loc.is_fictional)  return false;
     if (filterOrigin === 'FICTICIOS' && !loc.is_fictional) return false;
     return true;
-  });
+  }).sort((a, b) => a.id - b.id);
 
   const visibleReales = visible.filter(l => !l.is_fictional);
   const visibleFicticios = visible.filter(l => l.is_fictional);
@@ -266,6 +318,40 @@ export default function MapaDeMundos() {
                   <option key={b.id} value={String(b.id)}>{b.titulo}</option>
                 ))}
               </select>
+              
+              {filterBook && visible.length > 0 && (
+                <>
+                  <button 
+                    className={`mapa-recorrido-btn ${showRecorrido ? 'mapa-recorrido-btn--active' : ''}`}
+                    onClick={() => {
+                      const nextShow = !showRecorrido;
+                      setShowRecorrido(nextShow);
+                      saveMapPrefs(nextShow, closeRecorrido);
+                      setActivePin(null);
+                    }}
+                  >
+                    {showRecorrido ? '◆ OCULTAR RECORRIDO' : '◇ VER RECORRIDO'}
+                  </button>
+                  {showRecorrido && visible.length === 1 && (
+                    <div className="mapa-recorrido-note">
+                      Un solo lugar registrado. Agrega más pins para ver el recorrido.
+                    </div>
+                  )}
+                  {showRecorrido && visible.length > 2 && (
+                    <button
+                      className={`mapa-recorrido-btn ${closeRecorrido ? 'mapa-recorrido-btn--active' : ''}`}
+                      style={{ marginTop: '0.5rem' }}
+                      onClick={() => {
+                        const nextClose = !closeRecorrido;
+                        setCloseRecorrido(nextClose);
+                        saveMapPrefs(showRecorrido, nextClose);
+                      }}
+                    >
+                      {closeRecorrido ? '◆ CICLO CERRADO' : '◇ CERRAR CICLO'}
+                    </button>
+                  )}
+                </>
+              )}
             </div>
 
             <div className="mapa-panel__group">
@@ -315,16 +401,37 @@ export default function MapaDeMundos() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a> &copy; <a href="https://www.esri.com/">Esri</a>'
             />
             {/* English-only labels overlay (ESRI Dark Gray Reference) - disappears on zoom in */}
-            <LabelLayer isPopupOpen={!!(activePin || newPinLatLng)} />
+            <LabelLayer 
+              isPopupOpen={!!(activePin || newPinLatLng)} 
+              showRecorrido={showRecorrido && filterBook !== ''}
+            />
             
             <MapEvents onMapClick={handleMapClick} onClearHover={() => setHoverPin(null)} />
             {flyTarget && <FlyTo target={flyTarget} />}
+            <RecorridoEffect showRecorrido={showRecorrido && filterBook !== ''} locations={visible} />
 
-            {visible.map(loc => (
+            {showRecorrido && filterBook !== '' && visible.length > 1 && (
+              <Polyline
+                positions={[
+                  ...visible.map(loc => [loc.latitude, loc.longitude]),
+                  ...(closeRecorrido && visible.length > 2 ? [[visible[0].latitude, visible[0].longitude]] : [])
+                ]}
+                pathOptions={{
+                  color: '#c9a84c',
+                  weight: 1.5,
+                  opacity: 0.6,
+                  dashArray: '6, 8'
+                }}
+                smoothFactor={1}
+                interactive={false}
+              />
+            )}
+
+            {visible.map((loc, index) => (
               <Marker
                 key={loc.id}
                 position={[loc.latitude, loc.longitude]}
-                icon={createPinIcon(loc.is_fictional)}
+                icon={createPinIcon(loc.is_fictional, (showRecorrido && filterBook !== '') ? index + 1 : null)}
                 eventHandlers={{
                   click:      (e) => handleMarkerClick(loc, e),
                   mouseover:  (e) => { setHoverPin(loc); setHoverPos({ x: e.originalEvent.clientX, y: e.originalEvent.clientY }); },

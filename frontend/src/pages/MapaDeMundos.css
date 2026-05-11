@@ -55,20 +55,20 @@
 
 /* ── Custom pin ─────────────────────────────────────────────────────────── */
 .mapa-pin {
-  font-size: 24px;
+  font-size: 32px;
   line-height: 1;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer !important;
-  transition: transform 0.15s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7));
   font-family: serif;
 }
 .mapa-pin:hover {
-  transform: scale(1.2);
+  transform: scale(1.12);
 }
 
 /* Force pointer cursor on the Leaflet marker wrapper too */
@@ -349,16 +349,30 @@
   max-height: 350px;
   overflow-y: auto;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  visibility: hidden;
   transform: translateY(-5px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+  /* Retraso de 0.3s al salir del hover (grace period) */
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.3s;
+}
+
+/* Puente invisible opcional */
+.mapa-counter-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: transparent;
 }
 
 .mapa-counter-wrapper:hover .mapa-counter-dropdown {
   opacity: 1;
-  pointer-events: auto;
+  visibility: visible;
   transform: translateY(0);
+  /* Sin retraso al entrar */
+  transition-delay: 0s;
 }
 
 /* Scrollbar for dropdown */
@@ -790,3 +804,31 @@
   cursor: var(--cursor-deco) !important;
 }
 
+/* ── Recorrido toggle ───────────────────────────────────────────────────── */
+.mapa-recorrido-btn {
+  width: 100%;
+  border: 1px solid #8B6914;
+  background: transparent;
+  color: #c9a84c;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.4rem 0;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s ease, color 0.15s ease;
+  margin-top: 0.5rem;
+}
+.mapa-recorrido-btn--active {
+  background: #1a1500;
+}
+.mapa-recorrido-note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #9a8040;
+  text-align: center;
+  margin-top: 0.4rem;
+  line-height: 1.2;
+}

@@ -62,6 +62,7 @@ def list_locations(
     q = db.query(MapLocation)
     if book_id is not None:
         q = q.filter(MapLocation.book_id == book_id)
+        q = q.order_by(MapLocation.created_at.asc())
     if is_fictional is not None:
         q = q.filter(MapLocation.is_fictional == is_fictional)
     if place_type is not None:

@@ -27,6 +27,7 @@ export default function GuiaUsuario() {
                 <li>◆ <strong>SESIONES</strong> — El panel de lectura activa y sesiones de hoy.</li>
                 <li>◆ <strong>REPORTES</strong> — Historial detallado de tiempo por día, mes y año.</li>
                 <li>◆ <strong>INTELIGENCIA VISUAL</strong> — Estadísticas, gráficos y tus metas de lectura.</li>
+                <li>◆ <strong>EL MAPA DE MUNDOS</strong> — Cartografía interactiva de tus lecturas.</li>
               </ul>
             </div>
 
@@ -40,7 +41,18 @@ export default function GuiaUsuario() {
             </div>
 
             <div className="seccion-bloque">
-              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>4. El temporizador y las Sesiones</h2>
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>4. Mapa de Mundos</h2>
+              <p>Cartografiá los escenarios de tus historias favoritas en un mapa interactivo con estética Art Déco.</p>
+              <ul style={{ marginLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <li><strong>Agregar lugares:</strong> Hacé clic en cualquier punto del mapa para registrar una ciudad, país o región.</li>
+                <li><strong>Real vs. Ficticio:</strong> Clasificá tus pins como lugares del mundo real (◆) o tierras de fantasía (◇).</li>
+                <li><strong>Vínculo con Libros:</strong> Asociá cada lugar a un libro de tu biblioteca para ver dónde transcurren tus historias.</li>
+                <li><strong>El Recorrido (Journey):</strong> Al filtrar por un libro específico, activá el botón "VER RECORRIDO" para trazar una línea cronológica que conecta todos los puntos de la trama y numera las paradas del viaje narrativo.</li>
+              </ul>
+            </div>
+
+            <div className="seccion-bloque">
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>5. El temporizador y las Sesiones</h2>
               <p>Solo aparece en libros en estado "Leyendo". Permite medir tu tiempo de lectura activo de forma precisa.</p>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <li>◆ <strong>INICIAR</strong>: Comienza el conteo del tiempo.</li>
@@ -51,7 +63,7 @@ export default function GuiaUsuario() {
             </div>
 
             <div className="seccion-bloque">
-              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>5. Reportes de lectura</h2>
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>6. Reportes de lectura</h2>
               <p>En <strong>REPORTES</strong> encontrarás un análisis detallado de cómo distribuís tu tiempo:</p>
               <ul style={{ marginLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <li><strong>Vista Diaria:</strong> Listado cronológico de sesiones y tiempo total por libro.</li>
@@ -61,7 +73,7 @@ export default function GuiaUsuario() {
             </div>
 
             <div className="seccion-bloque">
-              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>6. Inteligencia Visual</h2>
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>7. Inteligencia Visual</h2>
               <p>Esta sección transforma tus datos en conocimiento sobre tus hábitos:</p>
               <ul style={{ marginLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <li><strong>Mi Desafío Lector:</strong> Establecé una meta de libros para el año y Bookish te dirá si vas a buen ritmo para cumplirla.</li>
@@ -71,13 +83,13 @@ export default function GuiaUsuario() {
             </div>
 
             <div className="seccion-bloque">
-              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>7. Respaldo y Seguridad</h2>
+              <h2 className="seccion-titulo" style={{ color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>8. Respaldo y Seguridad</h2>
               <p>Tus datos son tuyos y se guardan localmente. Sin embargo, siempre es recomendable tener una copia de seguridad.</p>
               <div style={{ margin: '1rem 0', padding: '1.5rem', background: 'var(--sup-media)', border: '1px solid var(--oro-oscuro)', borderRadius: '4px' }}>
                 <p style={{ marginBottom: '1rem' }}>En el icono de la <strong>NUBE</strong> del menú superior podés:</p>
                 <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                   <li>◆ <strong>EXPORTAR</strong>: Descarga un archivo ZIP con todos tus libros, notas, sesiones y portadas.</li>
-                  <li>◆ <strong>RESTAURAR</strong>: Sube un archivo ZIP previo para recuperar tu biblioteca en caso de cambiar de PC.</li>
+                  <li>◆ <strong>RESTAURAR</strong>: Sube un archivo ZIP previo o directamente un archivo <code>.db</code> antiguo para recuperar tu biblioteca.</li>
                 </ul>
                 <p style={{ margin: '1rem 0 0 0', color: 'var(--oro-primario)', fontSize: '0.85rem' }}><em>Aviso: Al restaurar, se borrarán los datos actuales para reemplazarlos por los del backup.</em></p>
               </div>
