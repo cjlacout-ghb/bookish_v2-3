@@ -36,6 +36,7 @@ class Libro(Base):
 
     etiquetas = Column(String(500))
     resena = Column(Text)
+    color = Column(String(50), default="#c9a84c", nullable=False, server_default="#c9a84c")
     creado_en = Column(DateTime, default=datetime.utcnow)
 
     notas = relationship("Nota", back_populates="libro", cascade="all, delete-orphan")

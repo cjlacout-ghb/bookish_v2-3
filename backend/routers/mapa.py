@@ -38,6 +38,7 @@ def _serialize(loc: MapLocation) -> dict:
             "id": loc.libro.id,
             "title": loc.libro.titulo,
             "author": loc.libro.autor,
+            "color": loc.libro.color,
         }
     return {
         "id": loc.id,

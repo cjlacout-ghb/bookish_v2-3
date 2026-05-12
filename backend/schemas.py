@@ -20,6 +20,7 @@ class LibroCreate(BaseModel):
     actual_edicion_anio: Optional[int] = None
     etiquetas: Optional[str] = None
     resena: Optional[str] = None
+    color: Optional[str] = "#c9a84c"
 
 
 class LibroUpdate(BaseModel):
@@ -40,6 +41,7 @@ class LibroUpdate(BaseModel):
     actual_edicion_anio: Optional[int] = None
     etiquetas: Optional[str] = None
     resena: Optional[str] = None
+    color: Optional[str] = None
 
 
 class LibroOut(BaseModel):
@@ -62,6 +64,7 @@ class LibroOut(BaseModel):
     portada_filename: Optional[str]
     etiquetas: Optional[str]
     resena: Optional[str]
+    color: Optional[str]
 
     creado_en: datetime
     total_segundos: Optional[int] = 0
@@ -96,6 +99,7 @@ class LibroResumen(BaseModel):
     titulo: str
     autor: str
     portada_filename: Optional[str] = None
+    color: Optional[str] = None
 
     class Config:
         from_attributes = True

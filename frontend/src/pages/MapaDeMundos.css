@@ -430,7 +430,7 @@
   content: "›";
   position: absolute;
   left: 0;
-  color: #9a8040;
+  color: var(--bullet-color, #9a8040);
 }
 .mapa-counter-list-item:hover {
   color: #c9a84c;
@@ -798,6 +798,57 @@
 .leaflet-crosshair,
 .leaflet-crosshair .leaflet-interactive {
   cursor: var(--cursor-deco) !important;
+}
+
+/* ── Color Palette ──────────────────────────────────────────────────────── */
+.mapa-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.mapa-palette__item {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  border: 1px solid #3a2e0e;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  padding: 0;
+}
+
+.mapa-palette__item:hover {
+  transform: scale(1.1);
+  border-color: #c9a84c;
+}
+
+.mapa-palette__item--active {
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px rgba(201, 168, 76, 0.8);
+}
+
+.mapa-form__color-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.mapa-form__color-hex {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  background: #111111;
+  border: 1px solid #3a2e0e;
+  color: #c9a84c;
+  padding: 0.3rem 0.5rem;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.mapa-form__color-hex:focus {
+  border-color: #c9a84c;
 }
 .leaflet-dragging .leaflet-grab,
 .leaflet-dragging .leaflet-container {

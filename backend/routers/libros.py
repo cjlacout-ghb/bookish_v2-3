@@ -56,6 +56,7 @@ def _libro_dict(libro: Libro, total_segundos: int) -> dict:
         "portada_filename": libro.portada_filename,
         "etiquetas": libro.etiquetas,
         "resena": libro.resena,
+        "color": libro.color,
         "creado_en": libro.creado_en,
         "total_segundos": total_segundos,
     }
