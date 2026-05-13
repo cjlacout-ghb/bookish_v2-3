@@ -8,15 +8,7 @@ import './MapaDeMundos.css';
 
 const API = 'http://localhost:8000/api';
 
-const MAP_PALETTE = [
-  '#c9a84c', // Dorado Bookish
-  '#6b2737', // Burdeos
-  '#4a5d23', // Verde Musgo
-  '#1b4965', // Azul Petróleo
-  '#b5651d', // Ocre
-  '#4a2c40', // Púrpura Profundo
-  '#3d3d3d', // Gris Carbón
-];
+// MAP_PALETTE removed: using native color picker
 
 // ── Custom pin icons ─────────────────────────────────────────────────────────
 function createPinIcon(fictional, order = null, customColor = null) {
@@ -78,7 +70,7 @@ function FlyTo({ target }) {
   useEffect(() => {
     if (target) {
       const currentZoom = map.getZoom();
-      const targetZoom = Math.max(currentZoom, 6); // Force zoom to at least level 6
+      const targetZoom = Math.max(currentZoom, 10); // Audit: Better focus on specific locations
       map.flyTo([target.lat, target.lng], targetZoom, { 
         duration: 1.8, 
         easeLinearity: 0.25 
@@ -95,8 +87,12 @@ function LabelLayer({ isPopupOpen, showRecorrido }) {
   return (
     <TileLayer
       url="https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
-      attribution=""
+      attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
       opacity={currentOpacity}
+      zIndex={1000}
+      updateWhenZooming={false}
+      updateWhenIdle={true}
+      keepBuffer={0}
     />
   );
 }
@@ -143,44 +139,46 @@ export default function MapaDeMundos() {
   const isInitialMount = useRef(true);
   const lastLoadedBook = useRef(null);
 
-  // 1. Cargar preferencias cuando cambia el libro
+  // 1. Load preferences when book changes
   useEffect(() => {
-    if (filterBook) {
-      const stored = localStorage.getItem(`bookish_map_prefs_${filterBook}`);
-      if (stored) {
-        try {
-          const { showRecorrido: s, closeRecorrido: c } = JSON.parse(stored);
-          setShowRecorrido(!!s);
-          setCloseRecorrido(!!c);
-        } catch (e) {
-          console.error("Error parsing map prefs", e);
-        }
-      } else {
-        setShowRecorrido(false);
-        setCloseRecorrido(false);
-      }
-      lastLoadedBook.current = filterBook;
-    } else {
+    if (!filterBook) {
       setShowRecorrido(false);
       setCloseRecorrido(false);
       lastLoadedBook.current = null;
+      return;
     }
+
+    const stored = localStorage.getItem(`bookish_map_prefs_${filterBook}`);
+    if (stored) {
+      try {
+        const { showRecorrido: s, closeRecorrido: c } = JSON.parse(stored);
+        setShowRecorrido(!!s);
+        setCloseRecorrido(!!c);
+      } catch (e) {
+        console.error("Error parsing map prefs", e);
+      }
+    } else {
+      setShowRecorrido(false);
+      setCloseRecorrido(false);
+    }
+    // Set this AFTER setting state to signal that we are now tracking this book
+    lastLoadedBook.current = filterBook;
   }, [filterBook]);
 
-  // 2. Guardar preferencias automáticamente cuando cambian (y ya fueron cargadas para ese libro)
+  // 2. Save preferences only when they change AND we are tracking the current book
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
     }
-    // Solo guardamos si el libro actual es el que terminamos de cargar (evita carrera con el useEffect de arriba)
+    
+    // Crucial: Only save if the book matches the one we last LOADED.
+    // This prevents overwriting new book's data with old book's state during transitions.
     if (filterBook && filterBook === lastLoadedBook.current) {
-      localStorage.setItem(`bookish_map_prefs_${filterBook}`, JSON.stringify({ 
-        showRecorrido, 
-        closeRecorrido 
-      }));
+      const prefs = { showRecorrido, closeRecorrido };
+      localStorage.setItem(`bookish_map_prefs_${filterBook}`, JSON.stringify(prefs));
     }
-  }, [showRecorrido, closeRecorrido, filterBook]);
+  }, [showRecorrido, closeRecorrido]);
   const [newPinLatLng, setNewPinLatLng] = useState(null);
   const [flyTarget, setFlyTarget]     = useState(null);
 
@@ -525,6 +523,7 @@ export default function MapaDeMundos() {
             center={[20, 0]}
             zoom={2}
             minZoom={2}
+            maxZoom={18}
             maxBounds={[[-90, -180], [90, 180]]}
             maxBoundsViscosity={1.0}
             style={{ width: '100%', height: '100%' }}
@@ -534,7 +533,8 @@ export default function MapaDeMundos() {
             {/* Dark base — no labels */}
             <TileLayer
               url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a> &copy; <a href="https://www.esri.com/">Esri</a>'
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+              maxZoom={18}
             />
             {/* English-only labels overlay (ESRI Dark Gray Reference) - disappears on zoom in */}
             <LabelLayer 
@@ -748,17 +748,13 @@ export default function MapaDeMundos() {
                   <div className="mapa-form__group">
                     <label className="mapa-form__label">Color del libro</label>
                     <div className="mapa-form__color-row">
-                      <div className="mapa-palette">
-                        {MAP_PALETTE.map(c => (
-                          <button
-                            key={c}
-                            className={`mapa-palette__item ${form.color === c ? 'mapa-palette__item--active' : ''}`}
-                            style={{ background: c }}
-                            onClick={() => setForm(f => ({ ...f, color: c }))}
-                            title={c}
-                          />
-                        ))}
-                      </div>
+                        <input
+                          type="color"
+                          className="mapa-color-picker"
+                          value={form.color}
+                          onChange={e => setForm(f => ({ ...f, color: e.target.value }))}
+                          title="Elegir color"
+                        />
                       <input
                         className="mapa-form__color-hex"
                         value={form.color}
@@ -875,17 +871,13 @@ export default function MapaDeMundos() {
                       <div className="mapa-form__group">
                         <label className="mapa-form__label">Color del libro</label>
                         <div className="mapa-form__color-row">
-                          <div className="mapa-palette">
-                            {MAP_PALETTE.map(c => (
-                              <button
-                                key={c}
-                                className={`mapa-palette__item ${form.color === c ? 'mapa-palette__item--active' : ''}`}
-                                style={{ background: c }}
-                                onClick={() => setForm(f => ({ ...f, color: c }))}
-                                title={c}
-                              />
-                            ))}
-                          </div>
+                            <input
+                              type="color"
+                              className="mapa-color-picker"
+                              value={form.color}
+                              onChange={e => setForm(f => ({ ...f, color: e.target.value }))}
+                              title="Elegir color"
+                            />
                           <input
                             className="mapa-form__color-hex"
                             value={form.color}
