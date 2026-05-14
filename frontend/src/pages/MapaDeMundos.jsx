@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -134,6 +134,8 @@ export default function MapaDeMundos() {
   const [showRecorrido, setShowRecorrido] = useState(false);
   const [closeRecorrido, setCloseRecorrido] = useState(false);
   const [panelOpen, setPanelOpen]     = useState(false);
+  const location = useLocation();
+  const hasFocused = useRef(false);
 
   // Guardas para evitar sobreescribir con valores por defecto durante la carga
   const isInitialMount = useRef(true);
@@ -252,6 +254,34 @@ export default function MapaDeMundos() {
       .catch(console.error);
   }, []);
 
+  // ── Marker click → open popup ───────────────────────────────────────────
+  const handleMarkerClick = useCallback((loc, e) => {
+    e?.originalEvent?.stopPropagation();
+    e?.stopPropagation?.();
+    setNewPinLatLng(null);
+    setActivePin(loc);
+    setPopupMode('view');
+    setFlyTarget({ lat: loc.latitude, lng: loc.longitude, t: Date.now() });
+  }, []);
+
+  // ── Handle incoming state (focus from other pages) ────────────────────────
+  useEffect(() => {
+    if (locations.length > 0 && books.length > 0 && !hasFocused.current) {
+      if (location.state?.focusLocationId) {
+        const target = locations.find(l => l.id === location.state.focusLocationId);
+        if (target) {
+          handleMarkerClick(target);
+          if (target.book) setFilterBook(String(target.book.id));
+          hasFocused.current = true;
+        }
+      } else if (location.state?.focusBookId) {
+        setFilterBook(String(location.state.focusBookId));
+        setShowRecorrido(true);
+        hasFocused.current = true;
+      }
+    }
+  }, [locations, books, location.state, handleMarkerClick]);
+
   // ── Filtered locations ──────────────────────────────────────────────────
   const visible = locations.filter(loc => {
     if (filterBook && String(loc.book?.id) !== filterBook) return false;
@@ -290,15 +320,7 @@ export default function MapaDeMundos() {
     }
   }, [form.book_id, books]);
 
-  // ── Marker click → open popup ───────────────────────────────────────────
-  const handleMarkerClick = useCallback((loc, e) => {
-    e?.originalEvent?.stopPropagation();
-    e?.stopPropagation?.();
-    setNewPinLatLng(null);
-    setActivePin(loc);
-    setPopupMode('view');
-    setFlyTarget({ lat: loc.latitude, lng: loc.longitude, t: Date.now() });
-  }, []);
+
 
   // ── Save new pin ────────────────────────────────────────────────────────
   const handleSaveNew = async () => {

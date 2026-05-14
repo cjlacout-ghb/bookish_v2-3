@@ -28,6 +28,7 @@ export default function DetalleLibro() {
   const [totalSegundos, setTotalSegundos] = useState(0)
   const [sesionActiva, setSesionActiva] = useState(null)
   const [sesiones, setSesiones] = useState([])
+  const [lugares, setLugares] = useState([])
   const [errorNotas, setErrorNotas] = useState(false)
   const [filtroActivo, setFiltroActivo] = useState(null)
 
@@ -36,6 +37,7 @@ export default function DetalleLibro() {
     cargarNotas()
     cargarSesionActiva()
     cargarSesiones()
+    cargarLugares()
   }, [id])
 
   async function cargarLibro() {
@@ -76,6 +78,15 @@ export default function DetalleLibro() {
       setErrorNotas(false)
     } catch {
       setErrorNotas(true)
+    }
+  }
+
+  async function cargarLugares() {
+    try {
+      const data = await API.getMapLocations({ book_id: id })
+      setLugares(data)
+    } catch (e) {
+      console.error("Error cargando lugares:", e)
     }
   }
 
@@ -350,6 +361,47 @@ export default function DetalleLibro() {
               </>
             )}
           </section>
+
+          {/* Lugares del Mundo (Mapa) */}
+          {lugares.length > 0 && (
+            <section className="seccion-bloque" aria-label="Lugares del mundo">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--espacio-md)' }}>
+                <h2 className="seccion-titulo" style={{ marginBottom: 0, color: 'var(--texto-primario)', textTransform: 'none', letterSpacing: 'normal' }}>◈ Lugares del mundo</h2>
+                <button
+                  className="btn btn-secundario"
+                  onClick={() => navigate('/mapa-de-mundos', { state: { focusBookId: id } })}
+                  title="Ver todos en el mapa"
+                  style={{ fontSize: '0.65rem', padding: '4px 10px' }}
+                >
+                  VER MAPA ◆
+                </button>
+              </div>
+              
+              <div className="lugares-grid">
+                {lugares.map(loc => (
+                  <div key={loc.id} className="nota-item nota-item--interactiva" onClick={() => navigate('/mapa-de-mundos', { state: { focusLocationId: loc.id } })}>
+                    <span className="nota-item__ornamento" style={{ color: libro.color || 'var(--oro)' }}>
+                      {loc.is_fictional ? '◇' : '◆'}
+                    </span>
+                    <div className="nota-item__cuerpo">
+                      <p className="nota-item__tipo">
+                        {loc.place_type.toUpperCase()} — {loc.is_fictional ? 'FICTICIO' : 'REAL'}
+                      </p>
+                      <p className="nota-item__texto" style={{ fontWeight: 'bold', letterSpacing: '1px' }}>
+                        {loc.name.toUpperCase()}
+                      </p>
+                      {loc.note && (
+                        <p className="nota-item__texto" style={{ marginTop: '0.2rem', fontSize: '0.85rem', opacity: 0.8 }}>
+                          {loc.note}
+                        </p>
+                      )}
+                    </div>
+                    <div className="nota-item__flecha">→</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Historial de Lectura (Sesiones) */}
           {sesiones.length > 0 && (

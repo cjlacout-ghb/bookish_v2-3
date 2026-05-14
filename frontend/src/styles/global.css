@@ -905,6 +905,37 @@ input, textarea, select {
   color: var(--texto-error);
 }
 
+.nota-item--interactiva {
+  cursor: pointer;
+  transition: background-color var(--transicion);
+  padding: var(--espacio-md);
+  border-bottom: 0.5px solid var(--oro-oscuro);
+}
+
+.nota-item--interactiva:hover {
+  background-color: var(--sup-alta);
+}
+
+.nota-item__flecha {
+  font-family: var(--fuente-titular);
+  color: var(--oro-oscuro);
+  font-size: 1.2rem;
+  align-self: center;
+  transition: transform var(--transicion), color var(--transicion);
+}
+
+.nota-item--interactiva:hover .nota-item__flecha {
+  transform: translateX(4px);
+  color: var(--oro-primario);
+}
+
+.lugares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--espacio-sm);
+  margin-top: var(--espacio-md);
+}
+
 /* ── Modal ──────────────────────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;

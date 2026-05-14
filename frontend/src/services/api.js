@@ -136,6 +136,12 @@ export const API = {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     });
+  },
+
+  // ── Mapa ──────────────────────────────────────────────────────────────────
+  getMapLocations: (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return fetch(`${API_URL}/map/locations?${query}`).then(handleResponse);
   }
 };
 
